@@ -44,3 +44,55 @@ $.fn.qtotop = function(options) {
 		}
 	});
 };
+
+    exports.tip = function(func){
+		exports.on('.ng-stock-title .tip', 'click', function(){
+			var $this = $(this);
+			if(!$this.hasClass('tip-active')){
+				$this.parent().parent().find('.tip-active').removeClass('tip-active');
+				$this.addClass('tip-active');
+				
+				if(func) func($this.text());
+			}
+		});
+	};
+	
+	exports.iscroll = {};
+	exports.iscroll.v;
+	exports.iscroll.init = function(func){
+		document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+		exports.iscroll.v = new IScroll('#wrapper', {click: true});
+		exports.iscroll.v.on('scrollStart', function(){if(this.directionY == -1 && this.y == 0) $('.ng-pulldown').show();});
+		exports.iscroll.v.on('scrollEnd', function(){if(this.y == 0) $('.ng-pulldown').slideUp(function(){if(func) func();});});
+	};
+	exports.iscroll.height = function(flag){
+		if(exports.iscroll.v){
+			var documentH = $(document).height();
+			var headerH = $('header').height();
+			var footerH = $('footer').height();
+			if($('footer').is(':hidden')){
+				$('#wrapper').height(documentH - headerH);
+			}else{
+				$('#wrapper').height(documentH - headerH - footerH);
+			}
+			
+			exports.iscroll.v.refresh();
+		}
+	};
+    
+    qiao.ue = function(id, options){
+	if(typeof(UE) != "undefined"){
+		if(!options){
+			return UE.getEditor(id);
+		}else if(typeof options == 'string'){
+			if(options == 'mini'){
+				return UE.getEditor(id, {toolbars: [['bold','italic','underline','forecolor','backcolor','|','fontfamily','fontsize','|','removeformat','formatmatch','pasteplain']]});
+			}
+		}else{
+			var opt = $.extend({}, window.UEDITOR_CONFIG);
+			return UE.getEditor(id, $.extend(opt, options));
+		}
+	}
+	
+	return {};
+};

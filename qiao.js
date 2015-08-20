@@ -82,22 +82,6 @@ qiao.end = function(end, $d, $c){
 		$(window).scroll(null);
 	}
 };
-qiao.ue = function(id, options){
-	if(typeof(UE) != "undefined"){
-		if(!options){
-			return UE.getEditor(id);
-		}else if(typeof options == 'string'){
-			if(options == 'mini'){
-				return UE.getEditor(id, {toolbars: [['bold','italic','underline','forecolor','backcolor','|','fontfamily','fontsize','|','removeformat','formatmatch','pasteplain']]});
-			}
-		}else{
-			var opt = $.extend({}, window.UEDITOR_CONFIG);
-			return UE.getEditor(id, $.extend(opt, options));
-		}
-	}
-	
-	return {};
-};
 
 	exports.search = function(key){
     	var res;
@@ -125,5 +109,15 @@ qiao.ue = function(id, options){
     		$d.scroll(function(){if($d.scrollTop() + $d.height() >= $c.height()) end();});
     	}else{
     		$(window).scroll(null);
+    	}
+    };
+    
+    exports.local = function(key, value){
+    	if(typeof value == 'undefined'){
+    		return $.cookie(key);
+    	}else if(value == null){
+    		$.cookie(key, value, {path:'/', expires: -1});
+    	}else{
+    		$.cookie(key, value, {path:'/', expires:1});
     	}
     };
