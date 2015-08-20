@@ -1,22 +1,20 @@
 /**
- * 封装一些常用方法
- * 1.ajax
- * 2.html
- * 3.ajaxinit
- * 4.to
- * 5.on
- * 6.is
- * 7.end
- * 8.ue
+ * 封装一些最基础常用的方法，
+ * 需要引入jquery：http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js
  */
 var qiao = {};
 
+/**
+ * qiao.ajax
+ * 
+ */
 qiao.ajaxoptions = {
-	url 	: '',
-	data 	: {},
-	type 	: 'post',
-	dataType: 'json',
-	async 	: false
+	url 		: '',
+	data 		: {},
+	type 		: 'post',
+	dataType	: 'json',
+	async 		: true,
+	crossDomain	: true
 };
 qiao.ajaxopt = function(options){
 	var opt = $.extend({}, qiao.ajaxoptions);
@@ -28,16 +26,19 @@ qiao.ajaxopt = function(options){
 	
 	return opt;
 };
-qiao.ajax = function(options){
-	if(!options){
-		alert('need options');
-	}else{
-		var opt = qiao.ajaxopt(options);
-		opt.url = base + opt.url;
+qiao.ajax = function(options, success, fail){
+	if(options){
+		var opt = exports.ajaxopt(options);
 		
-		var res;
-		$.ajax(opt).done(function(obj){res = obj;});
-		return res;
+		$.ajax(opt).done(function(obj){
+			if(success) success(obj);
+		}).fail(function(){
+			if(fail){
+				fail();
+			}else{
+				alert('数据传输失败，请重试！');
+			}
+		});
 	}
 };
 qiao.html = function(options, target){
