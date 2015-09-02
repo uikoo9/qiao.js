@@ -22,13 +22,14 @@ $.fn.qtotop = function(options) {
 };
 
 /**
+ * qcode
  * 生成二维码
  * text：待生成文字
  * type：中文还是英文，cn为中文
  * render：展示方式，table为表格方式
  * width：宽度
  * height：高度
- * 注：需要引入<@jsfile 'qrcode'/>
+ * 可以参考：plugins/_03_qcode/qcode.html
  */
 $.fn.qcode = function(options){
 	if(options){
