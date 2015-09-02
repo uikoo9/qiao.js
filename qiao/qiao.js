@@ -5,6 +5,10 @@
  * 2.qiao.ajax
  * 3.qiao.is
  * 4.qiao.totop
+ * 5.qiao.qrcode
+ * 6.qiao.end
+ * 7.qiao.cookie
+ * 8.qiao.search
  */
 var qiao = {};
 
@@ -169,4 +173,27 @@ qiao.cookie = function(key, value){
 	}else{
 		$.cookie(key, value, {path:'/', expires:1});
 	}
+};
+
+/**
+ * qiao.search
+ * 获取url后参数中的value
+ * qiao.search(key)：返回参数中key对应的value
+ */
+qiao.search = function(key){
+	var res;
+	
+	var s = location.search;
+	if(s){
+		s = s.substr(1);
+		if(s){
+			var ss = s.split('&');
+			for(var i=0; i<ss.length; i++){
+				var sss = ss[i].split('=');
+				if(sss && sss[0] == key) res = sss[1]; 
+			}
+		}
+	}
+	
+	return res;
 };
