@@ -2,6 +2,7 @@
  * qsearch
  * 获取url后参数中的value
  * qsearch(key)：返回参数中key对应的value
+ * 可以参考：plugins/_06_qsearch/qsearch.html
  */
 function qsearch(key){
 	var res;

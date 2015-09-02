@@ -4,6 +4,7 @@
  * qcookie(key)：返回key对应的value
  * qcookie(key, null)： 删除key对应的cookie
  * qcookie(key, value)：设置key-value的cookie
+ * 可以参考：plugins/_05_qcookie/qcookie.html
  */
 function qcookie(key, value){
 	if(typeof value == 'undefined'){

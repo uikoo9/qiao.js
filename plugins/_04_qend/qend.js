@@ -4,6 +4,7 @@
  * end：到达底部后的回调函数
  * $d：容器，默认是$(window)
  * $c：内容，默认是$(document)
+ * 可以参考：plugins/_04_qend/qend.html
  */
 function qend(end, $d, $c){
 	if(end){

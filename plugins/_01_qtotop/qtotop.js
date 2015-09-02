@@ -1,3 +1,8 @@
+/**
+ * qtotop
+ * 返回顶部的方法
+ * 可以参考：plugins/_01_qtotop/qtotop.html
+ */
 $.fn.qtotop = function(options) {
 	var $this = $(this);
 	$this.hide().click(function(){

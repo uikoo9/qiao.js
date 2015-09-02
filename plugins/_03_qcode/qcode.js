@@ -6,6 +6,7 @@
  * render：展示方式，table为表格方式
  * width：宽度
  * height：高度
+ * 可以参考：plugins/_03_qrcode/qrcode.html
  */
 $.fn.qcode = function(options){
 	if(options){

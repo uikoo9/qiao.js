@@ -116,7 +116,6 @@ qiao.qrcode = function(el, options){
 
 		$(el).qrcode(opt);
 	}
-	
 };
 qiao.qrcodetochar = function(str){
     var out, i, len, c;
@@ -164,6 +163,7 @@ qiao.end = function(end, $d, $c){
  * qiao.cookie(key)：返回key对应的value
  * qiao.cookie(key, null)： 删除key对应的cookie
  * qiao.cookie(key, value)：设置key-value的cookie
+ * 可以参考：plugins/_05_qcookie/qcookie.html
  */
 qiao.cookie = function(key, value){
 	if(typeof value == 'undefined'){
@@ -179,6 +179,7 @@ qiao.cookie = function(key, value){
  * qiao.search
  * 获取url后参数中的value
  * qiao.search(key)：返回参数中key对应的value
+ * 可以参考：plugins/_06_qsearch/qsearch.html
  */
 qiao.search = function(key){
 	var res;
