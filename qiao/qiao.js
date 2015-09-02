@@ -73,17 +73,6 @@ qiao.ajax = function(options, success, fail){
 //		if(type == 'mobile') return /^1\d{10}$/g.test(str);
 //	}
 //};
-//qiao.end = function(end, $d, $c){
-//	if(end){
-//		var $d = $d || $(window);
-//		var $c = $c || $(document);
-//		
-//		$d.scroll(function(){if($d.scrollTop() + $d.height() >= $c.height()) end();});
-//	}else{
-//		$(window).scroll(null);
-//	}
-//};
-//
 //	exports.search = function(key){
 //  	var res;
 //  	
@@ -100,14 +89,4 @@ qiao.ajax = function(options, success, fail){
 //  	}
 //  	
 //  	return res;
-//  };
-//  
-//  exports.local = function(key, value){
-//  	if(typeof value == 'undefined'){
-//  		return $.cookie(key);
-//  	}else if(value == null){
-//  		$.cookie(key, value, {path:'/', expires: -1});
-//  	}else{
-//  		$.cookie(key, value, {path:'/', expires:1});
-//  	}
 //  };

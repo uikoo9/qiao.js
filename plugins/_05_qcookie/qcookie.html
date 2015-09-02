@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>qcookie demo</title>
+	</head>
+	<body>
+		key:<input type="text" id="key"/><br />
+		value:<input type="text" id="value"/><br />
+		<button onclick="setcookie();">设置cookie</button><br /><br />
+		
+		key:<input type="text" id="gkey"/><br />
+		<button onclick="getcookie();">获取cookie</button>
+		
+		<!-- jquery是必须的 -->
+		<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+		
+		<!-- jquery.cookie也是必须的 -->
+		<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+		
+		<!-- 引入qcookie -->
+		<script src="qcookie.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			function setcookie(){
+				var key = $.trim($('#key').val());
+				var value = $.trim($('#value').val());
+				
+				if(!key){
+					alert('请输入key！');
+				}else if(!value){
+					alert('请输入value！');
+				}else{
+					qcookie(key, value);
+					alert('设置成功！');
+				}
+			}
+			
+			function getcookie(){
+				var gkey = $.trim($('#gkey').val());
+				
+				if(!gkey){
+					alert('请输入key！');
+				}else{
+					var value = qcookie(gkey);
+					alert(gkey + '的值是：' + value);
+				}
+			}
+		</script>
+	</body>
+</html>
