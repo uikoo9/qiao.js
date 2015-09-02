@@ -73,20 +73,3 @@ qiao.ajax = function(options, success, fail){
 //		if(type == 'mobile') return /^1\d{10}$/g.test(str);
 //	}
 //};
-//	exports.search = function(key){
-//  	var res;
-//  	
-//  	var s = location.search;
-//  	if(s){
-//  		s = s.substr(1);
-//  		if(s){
-//  			var ss = s.split('&');
-//  			for(var i=0; i<ss.length; i++){
-//  				var sss = ss[i].split('=');
-//  				if(sss && sss[0] == key) res = sss[1]; 
-//  			}
-//  		}
-//  	}
-//  	
-//  	return res;
-//  };

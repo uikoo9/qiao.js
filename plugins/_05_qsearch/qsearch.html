@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>qcookie demo</title>
+	</head>
+	<body>
+		<p>请给请求后添加参数，例如：http://xxx.com?key=value</p>
+		<button onclick="getvalue();">点击获取参数中key的value</button>
+		
+		<!-- 引入qsearch -->
+		<script src="qsearch.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			function getvalue(){
+				var value = qsearch('key');
+				alert('url后参数中的key对应的value是：' + value);
+			}
+		</script>
+	</body>
+</html>
