@@ -1,12 +1,23 @@
 /**
- * 封装一些最基础常用的方法，
- * 需要引入jquery：http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js
+ * qiao.js
+ * 注：需要引入jquery
+ * 1.qiao.on
+ * 2.qiao.ajax
+ * 3.qiao.is
  */
 var qiao = {};
 
 /**
+ * qiao.on
+ * 事件绑定
+ */
+qiao.on = function(obj, event, func){
+	$(document).off(event, obj).on(event, obj, func);
+};
+
+/**
  * qiao.ajax
- * 
+ * 对$.ajax的封装
  */
 qiao.ajaxoptions = {
 	url 		: '',
@@ -41,35 +52,35 @@ qiao.ajax = function(options, success, fail){
 		});
 	}
 };
-//qiao.html = function(options, target){
-//	var opt = qiao.ajaxopt(options);
-//	opt.dataType = 'html';
-//	
-//	var obj = target ? target : '#cruddiv';
-//	$(obj).empty().append(qiao.ajax(opt));
-//};
-//qiao.ajaxinit = function(){
-//	qmask.hide();
-//	$(document).ajaxStart(function(){
-//		qmask.show();
-//	});
-//	$(document).ajaxStop(function(){
-//		qmask.hide();
-//	});
-//};
-//qiao.to = function(url){
-//	if(url){
-//		window.location.href = url;
-//	}else{
-//		alert('need url');
-//	}
-//};
-//qiao.on = function(obj, event, func){
-//	$(document).off(event, obj).on(event, obj, func);
-//};
-//qiao.is = function(str, type){
-//	if(str && type){
-//		if(type == 'number') return /^\d+$/g.test(str);
-//		if(type == 'mobile') return /^1\d{10}$/g.test(str);
-//	}
-//};
+
+/**
+ * qiao.is
+ * 一些常用的判断，例如数字，手机号等
+ */
+qiao.is = function(str, type){
+	if(str && type){
+		if(type == 'number') return /^\d+$/g.test(str);
+		if(type == 'mobile') return /^1\d{10}$/g.test(str);
+	}
+};
+
+/**
+ * qiao.totop
+ * 返回顶部的方法
+ * 可以参考：plugins/_01_qtotop/qtotop.html
+ */
+qiao.totop = function(el){
+	var $el = $(el);
+	$el.hide().click(function(){
+		$('body, html').animate({scrollTop : '0px'});
+	});
+	
+	var $window = $(window);
+	$window.scroll(function(){
+		if ($window.scrollTop()>0){
+			$el.fadeIn();
+		}else{
+			$el.fadeOut();
+		}
+	});
+};
