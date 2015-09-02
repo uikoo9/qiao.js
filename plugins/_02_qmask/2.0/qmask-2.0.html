@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>qmask-2.0 demo</title>
+	</head>
+	
+	<body>
+		<!-- qmask-2.0的js和css也是必须位于body的开头！！！ -->
+		<link rel="stylesheet" type="text/css" href="qmask-2.0.min.css"/>
+		<script src="qmask-2.0.min.js" type="text/javascript" charset="utf-8"></script>
+		
+		<!-- jquery并不是必须的 -->
+		<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				setTimeout(function(){
+					qmask.hide();
+				}, 3000);
+			});
+		</script>
+		
+		<p>
+			qmask-2.0介绍：<br />
+			1.遮罩css3实现<br />
+			2.显示遮罩使用：qmask.show();<br />
+			3.隐藏遮罩使用：qmask.hide();
+		</p>
+		<button onclick="qmask.show();">qmask.show();</button>
+	</body>
+</html>
