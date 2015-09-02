@@ -137,9 +137,8 @@ qiao.bs.dialog = function(options, func){
 	$('body').append(qiao.bs.modalstr(opt));
 	
 	// ajax page
-	var html = qiao.ajax({url:options.url, dataType:'html'});
-	$('#bsmodal div.modal-body').empty().append(html);
-	
+	qiao.ajax({url:options.url,dataType:'html'}, function(html){$('#bsmodal div.modal-body').empty().append(html);});
+		
 	// init
 	var $modal = $('#bsmodal'); 
 	$modal.modal(opt);
@@ -236,21 +235,23 @@ $.fn.bstree = function(options){
 		}
 	}
 	
-	var res = '加载失败！';
-	var json = qiao.ajax(opt.url + '/tree');
-	if(json && json.object){
-		var tree = json.object;
+	qiao.ajax(opt.url + '/tree', function(json){
+		var res = '加载失败！';
+		if(json && json.object){
+			var tree = json.object;
+			
+			var start = '<div class="panel panel-info"><div class="panel-body" ';
+			if(opt.height != 'auto') 
+				start += 'style="height:600px;overflow-y:auto;"';
+				start += '><ul class="nav nav-list sidenav" id="treeul" data="url:' + opt.url +';">';
+			var children = qiao.bs.tree.sub(tree, opt);
+			var end = '</ul></div></div>';
+			res = start + children + end;
+		}
 		
-		var start = '<div class="panel panel-info"><div class="panel-body" ';
-		if(opt.height != 'auto') 
-			start += 'style="height:600px;overflow-y:auto;"';
-			start += '><ul class="nav nav-list sidenav" id="treeul" data="url:' + opt.url +';">';
-		var children = qiao.bs.tree.sub(tree, opt);
-		var end = '</ul></div></div>';
-		res = start + children + end;
-	}
+		$(this).empty().append(res);
+	});
 	
-	$(this).empty().append(res);
 	qiao.bs.tree.init();
 };
 qiao.bs.tree.sub = function(tree, opt){
@@ -338,9 +339,16 @@ qiao.bs.tree.addp = function(){
 	}, qiao.bs.tree.add);
 };
 qiao.bs.tree.add = function(){
-	var res = qiao.ajax({url:qiao.bs.tree.url + '/save',data:$('#bsmodal').find('form').qser()});
+	var res;
+	qiao.ajax({
+		async: false,
+		url:qiao.bs.tree.url + '/save',
+		data:$('#bsmodal').find('form').qser()
+	}, function(json){
+		res = json;
+	});
+	
 	qiao.bs.msg(res);
-
 	if(res && res.type == 'success'){
 		qiao.crud.url = qiao.bs.tree.url;
 		qiao.crud.reset();
@@ -350,9 +358,14 @@ qiao.bs.tree.add = function(){
 	}
 };
 qiao.bs.tree.del = function(){
-	var res = qiao.ajax({url:qiao.bs.tree.url + '/del/' + $(this).parent().qdata().id});
+	var res;
+	qiao.ajax({
+		url:qiao.bs.tree.url + '/del/' + $(this).parent().qdata().id
+	}, function(json){
+		res = json;
+	});
+
 	qiao.bs.msg(res);
-	
 	if(res && res.type == 'success'){
 		qiao.crud.url = qiao.bs.tree.url;
 		qiao.crud.reset();
