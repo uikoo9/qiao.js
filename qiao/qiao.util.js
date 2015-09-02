@@ -1,5 +1,5 @@
 /**
- * qiao.js
+ * qiao.util.js
  * 注：需要引入jquery
  * 1.qiao.on
  * 2.qiao.is
