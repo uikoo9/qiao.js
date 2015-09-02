@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>qcode demo</title>
+	</head>
+	<body>
+		<div class="qcode" data-src="http://uikoo9.com"></div>
+		
+		<!-- jquery是必须的 -->
+		<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+		
+		<!-- 引入qrcode -->
+		<script src="http://cdn.staticfile.org/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+		
+		<!-- 引入qcode -->
+		<script src="qcode.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function(){
+				$('.qcode').each(function(){
+					$(this).qcode($(this).data('src'));
+				});
+			});
+		</script>
+	</body>
+</html>
