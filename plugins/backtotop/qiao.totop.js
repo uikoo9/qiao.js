@@ -1,5 +1,5 @@
 (function($) {
-	$.fn.backToTop = function(options) {
+	$.fn.totop = function(options) {
 		var $this = $(this);
 		$this.hide().click(function() {
 			$("body, html").animate({
