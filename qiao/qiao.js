@@ -89,6 +89,7 @@ qiao.totop = function(el){
 /**
  * qiao.qrcode
  * 生成二维码
+ * 注：需要引入qrcode，<script src="http://cdn.staticfile.org/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
  * text：待生成文字
  * type：中文还是英文，cn为中文
  * render：展示方式，table为表格方式
@@ -152,3 +153,20 @@ qiao.end = function(end, $d, $c){
 	}
 };
 
+/**
+ * qiao.cookie
+ * 对jquery.cookie.js稍作封装
+ * 注：需要引入jquery.cookie.js，<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+ * qiao.cookie(key)：返回key对应的value
+ * qiao.cookie(key, null)： 删除key对应的cookie
+ * qiao.cookie(key, value)：设置key-value的cookie
+ */
+qiao.cookie = function(key, value){
+	if(typeof value == 'undefined'){
+		return $.cookie(key);
+	}else if(value == null){
+		$.cookie(key, value, {path:'/', expires: -1});
+	}else{
+		$.cookie(key, value, {path:'/', expires:1});
+	}
+};
