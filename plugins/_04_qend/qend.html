@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>qend demo</title>
+	</head>
+	<body>
+		<ul>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+			<li>list-----------</li>
+		</ul>
+		
+		
+		<!-- jquery是必须的 -->
+		<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+		
+		<!-- 引入qend -->
+		<script src="qend.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function(){
+				var sn = 1;
+				qend(function(){
+					$('ul').append('<li>动态添加的li-' + sn++ + '</li>');
+				});
+			});
+		</script>
+	</body>
+</html>
