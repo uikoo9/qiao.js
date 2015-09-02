@@ -1,19 +1,17 @@
-(function($) {
-	$.fn.totop = function(options) {
-		var $this = $(this);
-		$this.hide().click(function() {
-			$("body, html").animate({
-				scrollTop : "0px"
-			});
+$.fn.qtotop = function(options) {
+	var $this = $(this);
+	$this.hide().click(function(){
+		$("body, html").animate({
+			scrollTop : "0px"
 		});
-		var $window = $(window);
-		$window.scroll(function() {
-			if ($window.scrollTop() > 0) {
-				$this.fadeIn();
-			} else {
-				$this.fadeOut();
-			}
-		});
-		return this;
-	};
-})(jQuery);
+	});
+	
+	var $window = $(window);
+	$window.scroll(function(){
+		if ($window.scrollTop()>0){
+			$this.fadeIn();
+		}else{
+			$this.fadeOut();
+		}
+	});
+};
