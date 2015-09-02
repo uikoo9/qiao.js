@@ -2,8 +2,8 @@
  * qiao.js
  * 注：需要引入jquery
  * 1.qiao.on
- * 2.qiao.ajax
- * 3.qiao.is
+ * 2.qiao.is
+ * 3.qiao.ajax
  * 4.qiao.totop
  * 5.qiao.qrcode
  * 6.qiao.end
@@ -18,6 +18,17 @@ var qiao = {};
  */
 qiao.on = function(obj, event, func){
 	$(document).off(event, obj).on(event, obj, func);
+};
+
+/**
+ * qiao.is
+ * 一些常用的判断，例如数字，手机号等
+ */
+qiao.is = function(str, type){
+	if(str && type){
+		if(type == 'number') return /^\d+$/g.test(str);
+		if(type == 'mobile') return /^1\d{10}$/g.test(str);
+	}
 };
 
 /**
@@ -55,17 +66,6 @@ qiao.ajax = function(options, success, fail){
 				alert('数据传输失败，请重试！');
 			}
 		});
-	}
-};
-
-/**
- * qiao.is
- * 一些常用的判断，例如数字，手机号等
- */
-qiao.is = function(str, type){
-	if(str && type){
-		if(type == 'number') return /^\d+$/g.test(str);
-		if(type == 'mobile') return /^1\d{10}$/g.test(str);
 	}
 };
 
