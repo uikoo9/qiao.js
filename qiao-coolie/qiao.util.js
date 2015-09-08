@@ -1,20 +1,19 @@
 /**
- * exports.util.js
+ * qiao.util.js
  * 注：需要引入jquery
- * 1.exports.on
- * 2.exports.is
- * 3.exports.ajax
- * 4.exports.totop
- * 5.exports.qrcode
- * 6.exports.end
- * 7.exports.cookie
- * 8.exports.search
+ * 1.qiao.on
+ * 2.qiao.is
+ * 3.qiao.ajax
+ * 4.qiao.totop
+ * 5.qiao.end
+ * 6.qiao.cookie
+ * 7.qiao.search
  */
 define(function (require, exports, module) {
     'use strict';
 	
 	/**
-	 * exports.on
+	 * qiao.on
 	 * 事件绑定
 	 */
 	exports.on = function(obj, event, func){
@@ -22,7 +21,7 @@ define(function (require, exports, module) {
 	};
 	
 	/**
-	 * exports.is
+	 * qiao.is
 	 * 一些常用的判断，例如数字，手机号等
 	 */
 	exports.is = function(str, type){
@@ -33,7 +32,7 @@ define(function (require, exports, module) {
 	};
 	
 	/**
-	 * exports.ajax
+	 * qiao.ajax
 	 * 对$.ajax的封装
 	 */
 	exports.ajaxoptions = {
@@ -71,7 +70,7 @@ define(function (require, exports, module) {
 	};
 	
 	/**
-	 * exports.totop
+	 * qiao.totop
 	 * 返回顶部的方法
 	 * 可以参考：plugins/_01_qtotop/qtotop.html
 	 */
@@ -92,54 +91,7 @@ define(function (require, exports, module) {
 	};
 	
 	/**
-	 * exports.qrcode
-	 * 生成二维码
-	 * 注：需要引入qrcode，<script src="http://cdn.staticfile.org/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
-	 * text：待生成文字
-	 * type：中文还是英文，cn为中文
-	 * render：展示方式，table为表格方式
-	 * width：宽度
-	 * height：高度
-	 * 可以参考：plugins/_03_qrcode/qrcode.html
-	 */
-	exports.qrcode = function(el, options){
-		if(options){
-			var opt = {};
-			if(typeof options == 'string'){
-				opt.text = options;
-			}else{
-				if(options.text) opt.text = options.text;
-				if(options.type && options.type == 'ch') opt.text = exports.qrcodetochar(opt.text);
-				if(options.render && options.render == 'table') opt.render = options.render;
-				if(options.width) opt.width = options.width;
-				if(options.height) opt.height = options.height;
-			}
-	
-			$(el).qrcode(opt);
-		}
-	};
-	exports.qrcodetochar = function(str){
-	    var out, i, len, c;
-	    out = "";
-	    len = str.length;
-	    for (i = 0; i < len; i++) {
-	        c = str.charCodeAt(i);
-	        if ((c >= 0x0001) && (c <= 0x007F)) {
-	            out += str.charAt(i);
-	        } else if (c > 0x07FF) {
-	            out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
-	            out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));
-	            out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
-	        } else {
-	            out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F));
-	            out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
-	        }
-	    }
-	    return out;
-	};
-	
-	/**
-	 * exports.end
+	 * qiao.end
 	 * 到达页面底部后自动加载内容
 	 * end：到达底部后的回调函数
 	 * $d：容器，默认是$(window)
@@ -158,12 +110,12 @@ define(function (require, exports, module) {
 	};
 	
 	/**
-	 * exports.cookie
+	 * qiao.cookie
 	 * 对jquery.cookie.js稍作封装
 	 * 注：需要引入jquery.cookie.js，<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-	 * exports.cookie(key)：返回key对应的value
-	 * exports.cookie(key, null)： 删除key对应的cookie
-	 * exports.cookie(key, value)：设置key-value的cookie
+	 * qiao.cookie(key)：返回key对应的value
+	 * qiao.cookie(key, null)： 删除key对应的cookie
+	 * qiao.cookie(key, value)：设置key-value的cookie
 	 * 可以参考：plugins/_05_qcookie/qcookie.html
 	 */
 	exports.cookie = function(key, value){
@@ -177,9 +129,9 @@ define(function (require, exports, module) {
 	};
 	
 	/**
-	 * exports.search
+	 * qiao.search
 	 * 获取url后参数中的value
-	 * exports.search(key)：返回参数中key对应的value
+	 * qiao.search(key)：返回参数中key对应的value
 	 * 可以参考：plugins/_06_qsearch/qsearch.html
 	 */
 	exports.search = function(key){
