@@ -1,6 +1,5 @@
 /**
  * qiao.util.js
- * 注：需要引入jquery
  * 1.qiao.on
  * 2.qiao.is
  * 3.qiao.ajax
@@ -200,18 +199,17 @@ qiao.search = function(key){
 };
 
 /**
- * 对bootstrap的封装
+ * qiao.bs.js
  * 1.alert
  * 2.confirm
  * 3.dialog
  * 4.msg
  * 5.tooltip
  * 6.popover
- * 7.bstree
- * 8.scrollspy
- * 9.initimg
- * 10.bsdate
- * 11.bstro
+ * 7.scrollspy
+ * 8.initimg
+ * 9.bsdate
+ * 10.bstro
  */
 qiao.bs 	= {};
 qiao.bs.modaloptions = {
@@ -416,172 +414,6 @@ $.fn.bspop = function(options){
 	}
 	
 	$(this).popover(opt);
-};
-qiao.bs.tree = {};
-qiao.bs.tree.options = {
-	url 	: '/ucenter/menu',
-	height 	: '600px',
-	open	: true,
-	edit	: false,
-	checkbox: false,
-	showurl	: true
-};
-$.fn.bstree = function(options){
-	var opt = $.extend({}, qiao.bs.tree.options);
-	if(options){
-		if(typeof options == 'string'){
-			opt.url = options;
-		}else{
-			$.extend(opt, options);
-		}
-	}
-	
-	qiao.ajax(opt.url + '/tree', function(json){
-		var res = '加载失败！';
-		if(json && json.object){
-			var tree = json.object;
-			
-			var start = '<div class="panel panel-info"><div class="panel-body" ';
-			if(opt.height != 'auto') 
-				start += 'style="height:600px;overflow-y:auto;"';
-				start += '><ul class="nav nav-list sidenav" id="treeul" data="url:' + opt.url +';">';
-			var children = qiao.bs.tree.sub(tree, opt);
-			var end = '</ul></div></div>';
-			res = start + children + end;
-		}
-		
-		$(this).empty().append(res);
-	});
-	
-	qiao.bs.tree.init();
-};
-qiao.bs.tree.sub = function(tree, opt){
-	var res = '';
-	if(tree){
-		var res = 
-			'<li>' + 
-				'<a href="javascript:void(0);" data="id:' + tree.id + ';url:' + tree.url + ';">' + 
-					'<span class="glyphicon glyphicon-minus"></span>';
-		if(opt.checkbox){
-			res += '<input type="checkbox" class="treecheckbox" ';
-			if(tree.checked){
-				res += 'checked';
-			}
-			res += '/>';
-		}
-			res += tree.text;
-		if(opt.showurl){
-			res += '(' + tree.url + ')';
-		}
-		if(opt.edit)
-			res += 
-				'&nbsp;&nbsp;<span class="label label-primary bstreeadd">添加子菜单</span>' + 
-				'&nbsp;&nbsp;<span class="label label-primary bstreeedit">修改</span>' + 
-				'&nbsp;&nbsp;<span class="label label-danger  bstreedel">删除</span>';
-			res += '</a>';
-		var children = tree.children;
-		if(children && children.length > 0){
-				res += '<ul style="padding-left:20px;" id="treeid_' + tree.id + '" class="nav collapse ';
-			if(opt.open) 
-				res += 'in';
-				res += '">';
-			for(var i=0; i<children.length; i++){
-				res += qiao.bs.tree.sub(children[i], opt);
-			}
-				res += '</ul>';
-		}
-		res += '</li>';
-	}
-	
-	return res;
-};
-qiao.bs.tree.init = function(){
-	qiao.on('#treeul .glyphicon-minus', 'click', function(){
-		if($(this).parent().next().length > 0){
-			$('#treeid_' + $(this).parents('a').qdata().id).collapse('hide');
-			$(this).removeClass('glyphicon-minus').addClass('glyphicon-plus');
-		}
-	});
-	qiao.on('#treeul .glyphicon-plus', 'click', function(){
-		if($(this).parent().next().length > 0){
-			$('#treeid_' + $(this).parents('a').qdata().id).collapse('show');
-			$(this).removeClass('glyphicon-plus').addClass('glyphicon-minus');
-		}
-	});
-	qiao.on('input.treecheckbox', 'change', function(){
-		// 检测子级的
-		var subFlag = $(this).prop('checked');
-		$(this).parent().next().find('input.treecheckbox').each(function(){
-			$(this).prop('checked', subFlag);
-		});
-		
-		// 检测父辈的
-		var parentFlag = true;
-		var $ul = $(this).parent().parent().parent(); 
-		$ul.children().each(function(){
-			var checked = $(this).children().children('input').prop('checked');
-			if(!checked) parentFlag = false;
-		});
-		$ul.prev().children('input').prop('checked', parentFlag);
-	});
-	
-	qiao.bs.tree.url = $('#treeul').qdata().url;
-	if(qiao.bs.tree.url){
-		qiao.on('.bstreeadd', 'click', qiao.bs.tree.addp);
-		qiao.on('.bstreedel', 'click', qiao.bs.tree.del);
-		qiao.on('.bstreeedit', 'click', qiao.bs.tree.editp);
-	}
-};
-qiao.bs.tree.addp = function(){
-	qiao.bs.dialog({
-		url 	: qiao.bs.tree.url + '/add/' + $(this).parent().qdata().id,
-		title 	: '添加子菜单',
-		okbtn 	: '保存'
-	}, qiao.bs.tree.add);
-};
-qiao.bs.tree.add = function(){
-	var res;
-	qiao.ajax({
-		async: false,
-		url:qiao.bs.tree.url + '/save',
-		data:$('#bsmodal').find('form').qser()
-	}, function(json){
-		res = json;
-	});
-	
-	qiao.bs.msg(res);
-	if(res && res.type == 'success'){
-		qiao.crud.url = qiao.bs.tree.url;
-		qiao.crud.reset();
-		return true;
-	}else{
-		return false;
-	}
-};
-qiao.bs.tree.del = function(){
-	var res;
-	qiao.ajax({
-		url:qiao.bs.tree.url + '/del/' + $(this).parent().qdata().id
-	}, function(json){
-		res = json;
-	});
-
-	qiao.bs.msg(res);
-	if(res && res.type == 'success'){
-		qiao.crud.url = qiao.bs.tree.url;
-		qiao.crud.reset();
-	}
-};
-qiao.bs.tree.editp = function(){
-	qiao.bs.dialog({
-		url 	: qiao.bs.tree.url + '/savep?id=' + $(this).parent().qdata().id,
-		title 	: '修改菜单',
-		okbtn 	: '保存'
-	}, qiao.bs.tree.edit);
-};
-qiao.bs.tree.edit = function(){
-	qiao.crud.url = qiao.bs.tree.url;
-	return qiao.crud.save();
 };
 qiao.bs.spy = function(target,body){
 	var $body = 'body';
