@@ -1,6 +1,6 @@
 /**
  * qiao.util.js
- * 注：需要引入jquery
+ * 0.qdata
  * 1.qiao.on
  * 2.qiao.is
  * 3.qiao.ajax
@@ -11,6 +11,26 @@
  * 8.qiao.search
  */
 var qiao = {};
+
+/** 
+ * 将data属性转为js对象
+ */
+$.fn.qdata = function(){
+	var res = {};
+	
+	var data = $(this).attr('data');
+	if(data){
+		var options = data.split(';');
+		for(var i=0; i<options.length; i++){
+			if(options[i]){
+				var opt = options[i].split(':');
+				res[opt[0]] = opt[1];
+			}
+		}
+	}
+	
+	return res;
+};
 
 /**
  * qiao.on
