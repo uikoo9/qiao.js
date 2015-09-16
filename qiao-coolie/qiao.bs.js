@@ -1,16 +1,15 @@
 /**
- * 对bootstrap的封装
+ * qiao.bs.js
  * 1.alert
  * 2.confirm
  * 3.dialog
  * 4.msg
  * 5.tooltip
  * 6.popover
- * 7.bstree
- * 8.scrollspy
- * 9.initimg
- * 10.bsdate
- * 11.bstro
+ * 7.scrollspy
+ * 8.initimg
+ * 9.bsdate
+ * 10.bstro
  */
 define(function (require, exports, module) {
     'use strict';
@@ -218,172 +217,6 @@ define(function (require, exports, module) {
 		}
 		
 		$(this).popover(opt);
-	};
-	exports.bs.tree = {};
-	exports.bs.tree.options = {
-		url 	: '/ucenter/menu',
-		height 	: '600px',
-		open	: true,
-		edit	: false,
-		checkbox: false,
-		showurl	: true
-	};
-	$.fn.bstree = function(options){
-		var opt = $.extend({}, exports.bs.tree.options);
-		if(options){
-			if(typeof options == 'string'){
-				opt.url = options;
-			}else{
-				$.extend(opt, options);
-			}
-		}
-		
-		exports.ajax(opt.url + '/tree', function(json){
-			var res = '加载失败！';
-			if(json && json.object){
-				var tree = json.object;
-				
-				var start = '<div class="panel panel-info"><div class="panel-body" ';
-				if(opt.height != 'auto') 
-					start += 'style="height:600px;overflow-y:auto;"';
-					start += '><ul class="nav nav-list sidenav" id="treeul" data="url:' + opt.url +';">';
-				var children = exports.bs.tree.sub(tree, opt);
-				var end = '</ul></div></div>';
-				res = start + children + end;
-			}
-			
-			$(this).empty().append(res);
-		});
-		
-		exports.bs.tree.init();
-	};
-	exports.bs.tree.sub = function(tree, opt){
-		var res = '';
-		if(tree){
-			var res = 
-				'<li>' + 
-					'<a href="javascript:void(0);" data="id:' + tree.id + ';url:' + tree.url + ';">' + 
-						'<span class="glyphicon glyphicon-minus"></span>';
-			if(opt.checkbox){
-				res += '<input type="checkbox" class="treecheckbox" ';
-				if(tree.checked){
-					res += 'checked';
-				}
-				res += '/>';
-			}
-				res += tree.text;
-			if(opt.showurl){
-				res += '(' + tree.url + ')';
-			}
-			if(opt.edit)
-				res += 
-					'&nbsp;&nbsp;<span class="label label-primary bstreeadd">添加子菜单</span>' + 
-					'&nbsp;&nbsp;<span class="label label-primary bstreeedit">修改</span>' + 
-					'&nbsp;&nbsp;<span class="label label-danger  bstreedel">删除</span>';
-				res += '</a>';
-			var children = tree.children;
-			if(children && children.length > 0){
-					res += '<ul style="padding-left:20px;" id="treeid_' + tree.id + '" class="nav collapse ';
-				if(opt.open) 
-					res += 'in';
-					res += '">';
-				for(var i=0; i<children.length; i++){
-					res += exports.bs.tree.sub(children[i], opt);
-				}
-					res += '</ul>';
-			}
-			res += '</li>';
-		}
-		
-		return res;
-	};
-	exports.bs.tree.init = function(){
-		exports.on('#treeul .glyphicon-minus', 'click', function(){
-			if($(this).parent().next().length > 0){
-				$('#treeid_' + $(this).parents('a').qdata().id).collapse('hide');
-				$(this).removeClass('glyphicon-minus').addClass('glyphicon-plus');
-			}
-		});
-		exports.on('#treeul .glyphicon-plus', 'click', function(){
-			if($(this).parent().next().length > 0){
-				$('#treeid_' + $(this).parents('a').qdata().id).collapse('show');
-				$(this).removeClass('glyphicon-plus').addClass('glyphicon-minus');
-			}
-		});
-		exports.on('input.treecheckbox', 'change', function(){
-			// 检测子级的
-			var subFlag = $(this).prop('checked');
-			$(this).parent().next().find('input.treecheckbox').each(function(){
-				$(this).prop('checked', subFlag);
-			});
-			
-			// 检测父辈的
-			var parentFlag = true;
-			var $ul = $(this).parent().parent().parent(); 
-			$ul.children().each(function(){
-				var checked = $(this).children().children('input').prop('checked');
-				if(!checked) parentFlag = false;
-			});
-			$ul.prev().children('input').prop('checked', parentFlag);
-		});
-		
-		exports.bs.tree.url = $('#treeul').qdata().url;
-		if(exports.bs.tree.url){
-			exports.on('.bstreeadd', 'click', exports.bs.tree.addp);
-			exports.on('.bstreedel', 'click', exports.bs.tree.del);
-			exports.on('.bstreeedit', 'click', exports.bs.tree.editp);
-		}
-	};
-	exports.bs.tree.addp = function(){
-		exports.bs.dialog({
-			url 	: exports.bs.tree.url + '/add/' + $(this).parent().qdata().id,
-			title 	: '添加子菜单',
-			okbtn 	: '保存'
-		}, exports.bs.tree.add);
-	};
-	exports.bs.tree.add = function(){
-		var res;
-		exports.ajax({
-			async: false,
-			url:exports.bs.tree.url + '/save',
-			data:$('#bsmodal').find('form').qser()
-		}, function(json){
-			res = json;
-		});
-		
-		exports.bs.msg(res);
-		if(res && res.type == 'success'){
-			exports.crud.url = exports.bs.tree.url;
-			exports.crud.reset();
-			return true;
-		}else{
-			return false;
-		}
-	};
-	exports.bs.tree.del = function(){
-		var res;
-		exports.ajax({
-			url:exports.bs.tree.url + '/del/' + $(this).parent().qdata().id
-		}, function(json){
-			res = json;
-		});
-	
-		exports.bs.msg(res);
-		if(res && res.type == 'success'){
-			exports.crud.url = exports.bs.tree.url;
-			exports.crud.reset();
-		}
-	};
-	exports.bs.tree.editp = function(){
-		exports.bs.dialog({
-			url 	: exports.bs.tree.url + '/savep?id=' + $(this).parent().qdata().id,
-			title 	: '修改菜单',
-			okbtn 	: '保存'
-		}, exports.bs.tree.edit);
-	};
-	exports.bs.tree.edit = function(){
-		exports.crud.url = exports.bs.tree.url;
-		return exports.crud.save();
 	};
 	exports.bs.spy = function(target,body){
 		var $body = 'body';

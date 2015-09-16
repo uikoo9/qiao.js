@@ -1,16 +1,53 @@
 /**
  * qiao.util.js
- * 注：需要引入jquery
- * 1.qiao.on
- * 2.qiao.is
- * 3.qiao.ajax
- * 4.qiao.totop
- * 5.qiao.end
- * 6.qiao.cookie
- * 7.qiao.search
+ * 1.qser
+ * 2.qdata
+ * 3.qiao.on
+ * 4.qiao.is
+ * 5.qiao.ajax
+ * 6.qiao.totop
+ * 8.qiao.end
+ * 9.qiao.cookie
+ * 10.qiao.search
  */
 define(function (require, exports, module) {
     'use strict';
+    
+    /**
+	 * 将表单转为js对象
+	 */
+	$.fn.qser = function(){
+		var obj = {};
+		
+		var objs = $(this).serializeArray();
+		if(objs.length != 0){
+			for(var i=0; i<objs.length; i++){
+				obj[objs[i].name] = objs[i].value;
+			}
+		}
+	
+		return obj;
+	};
+	
+	/** 
+	 * 将data属性转为js对象
+	 */
+	$.fn.qdata = function(){
+		var res = {};
+		
+		var data = $(this).attr('data');
+		if(data){
+			var options = data.split(';');
+			for(var i=0; i<options.length; i++){
+				if(options[i]){
+					var opt = options[i].split(':');
+					res[opt[0]] = opt[1];
+				}
+			}
+		}
+		
+		return res;
+	};
 	
 	/**
 	 * qiao.on
