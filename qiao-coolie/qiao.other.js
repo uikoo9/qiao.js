@@ -1,13 +1,13 @@
 /**
  * qiao.other.js
  * 注：三方组件封装
- * 1.qiao.qrcode
+ * 1.qiao.qcode
  */
 define(function (require, exports, module) {
     'use strict';
 	
 	/**
-	 * qiao.qrcode
+	 * qiao.qcode
 	 * 生成二维码
 	 * 注：需要引入qrcode，<script src="http://cdn.staticfile.org/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
 	 * text：待生成文字
@@ -15,23 +15,25 @@ define(function (require, exports, module) {
 	 * render：展示方式，table为表格方式
 	 * width：宽度
 	 * height：高度
-	 * 可以参考：plugins/_03_qrcode/qrcode.html
+	 * 可以参考：plugins/_03_qcode/qcode.html
 	 */
-	exports.qrcode = function(el, options){
-		if(options){
-			var opt = {};
-			if(typeof options == 'string'){
-				opt.text = options;
-			}else{
-				if(options.text) opt.text = options.text;
-				if(options.type && options.type == 'ch') opt.text = exports.qrcodetochar(opt.text);
-				if(options.render && options.render == 'table') opt.render = options.render;
-				if(options.width) opt.width = options.width;
-				if(options.height) opt.height = options.height;
+	exports.qcode = function(el, options){
+		$.fn.qcode = function(options){
+			if(options){
+				var opt = {};
+				if(typeof options == 'string'){
+					opt.text = options;
+				}else{
+					if(options.text) opt.text = options.text;
+					if(options.type && options.type == 'ch') opt.text = exports.qrcodetochar(opt.text);
+					if(options.render && options.render == 'table') opt.render = options.render;
+					if(options.width) opt.width = options.width;
+					if(options.height) opt.height = options.height;
+				}
+		
+				$(this).qrcode(opt);
 			}
-	
-			$(el).qrcode(opt);
-		}
+		};
 	};
 	exports.qrcodetochar = function(str){
 	    var out, i, len, c;

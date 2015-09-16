@@ -6,7 +6,7 @@
  * 4.qiao.is
  * 5.qiao.ajax
  * 6.qiao.totop
- * 7.qiao.qrcode
+ * 7.qiao.qcode
  * 8.qiao.end
  * 9.qiao.cookie
  * 10.qiao.search
@@ -129,7 +129,7 @@ qiao.totop = function(el){
 };
 
 /**
- * qiao.qrcode
+ * qiao.qcode
  * 生成二维码
  * 注：需要引入qrcode，<script src="http://cdn.staticfile.org/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
  * text：待生成文字
@@ -137,9 +137,9 @@ qiao.totop = function(el){
  * render：展示方式，table为表格方式
  * width：宽度
  * height：高度
- * 可以参考：plugins/_03_qrcode/qrcode.html
+ * 可以参考：plugins/_03_qcode/qcode.html
  */
-qiao.qrcode = function(el, options){
+$.fn.qcode = function(options){
 	if(options){
 		var opt = {};
 		if(typeof options == 'string'){
@@ -152,7 +152,7 @@ qiao.qrcode = function(el, options){
 			if(options.height) opt.height = options.height;
 		}
 
-		$(el).qrcode(opt);
+		$(this).qrcode(opt);
 	}
 };
 qiao.qrcodetochar = function(str){
