@@ -1,16 +1,33 @@
 /**
  * qiao.util.js
- * 0.qdata
- * 1.qiao.on
- * 2.qiao.is
- * 3.qiao.ajax
- * 4.qiao.totop
- * 5.qiao.qrcode
- * 6.qiao.end
- * 7.qiao.cookie
- * 8.qiao.search
+ * 1.qser
+ * 2.qdata
+ * 3.qiao.on
+ * 4.qiao.is
+ * 5.qiao.ajax
+ * 6.qiao.totop
+ * 7.qiao.qrcode
+ * 8.qiao.end
+ * 9.qiao.cookie
+ * 10.qiao.search
  */
 var qiao = {};
+
+/**
+ * 将表单转为js对象
+ */
+$.fn.qser = function(){
+	var obj = {};
+	
+	var objs = $(this).serializeArray();
+	if(objs.length != 0){
+		for(var i=0; i<objs.length; i++){
+			obj[objs[i].name] = objs[i].value;
+		}
+	}
+
+	return obj;
+};
 
 /** 
  * 将data属性转为js对象
