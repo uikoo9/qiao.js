@@ -56,6 +56,7 @@ qiao.ajaxopt = function(options){
 qiao.ajax = function(options, success, fail){
 	if(options){
 		var opt = qiao.ajaxopt(options);
+		if(typeof base != 'undefined') opt.url = base + opt.url;
 		
 		$.ajax(opt).done(function(obj){
 			if(success) success(obj);
