@@ -75,11 +75,18 @@ define(function (require, exports, module) {
 			var $i = $this.find('i');
 			
 			if(status == 'kai'){
-				$i.html('&#xe62f;');
+				$i.html('&#xe608;');
 				$this.data('status', 'guan').next().slideUp();
 			}
 			if(status == 'guan'){
-				$i.html('&#xe62b;');
+				$(el).each(function(){
+					var $t = $(this);
+					if($t.data('status') == 'kai'){
+						$t.find('i').html('&#xe608;');
+						$t.data('status', 'guan').next().slideUp();
+					}
+				});
+				$i.html('&#xe600;');
 				$this.data('status', 'kai').next().slideDown();
 			}
 		});
@@ -148,21 +155,20 @@ define(function (require, exports, module) {
 			var $mask = $('<div class="ng-mask"></div>').css({width: width+'px', height: height+'px'});
 			
 			var el = options.el;
+			var mheight = options.top || height/10 + 'px';
 			if(el){
-				var $el = $(el).css({margin: height/10+'px auto'});
+				var $el = $(el).css({'margin-top':mheight, 'margin-left':'auto', 'margin-right':'auto'});
 				$mask.appendTo($('body')).show().append($el.slideDown());
 			}else{
-				var url = options.url;
-				if(url){
-					var html = require('../../../../ucenter/ucenter-login.html', 'html');
-					var $html = $(html).css({margin: height/10+'px auto'});
-					$mask.appendTo($('body')).show().append($html.slideDown());
+				var html = options.html;
+				if(html){
+					var $html = $(html).css({'margin-top':mheight, 'margin-left':'auto', 'margin-right':'auto'});
+					$mask.appendTo($('body')).show().append($html.show());
 				}
 			}
 			
-			qiao.on('.ng-mask', 'click', function(e){
-				if(e.target.className == 'ng-mask') $mask.remove();
-			});
+			qiao.on('.ng-mask', 'click', function(e){if(e.target.className == 'ng-mask') $mask.remove();});
+			qiao.on('.ng-login-title .close', 'click', function(){$mask.remove();});
 		}
 	};
 });
