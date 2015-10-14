@@ -6,9 +6,10 @@
  * 4.qiao.is
  * 5.qiao.ajax
  * 6.qiao.totop
- * 8.qiao.end
- * 9.qiao.cookie
- * 10.qiao.search
+ * 7.qiao.end
+ * 8.qiao.cookie
+ * 9.qiao.search
+ * 10.qiao.juicer 
  */
 define(function (require, exports, module) {
     'use strict';
@@ -187,5 +188,17 @@ define(function (require, exports, module) {
 		}
 		
 		return res;
+	};
+	
+	/**
+	 * qiao.juicer
+	 * 对juicer进行封装
+	 */
+	exports.juicer = function(el, data, callback){
+		if(el){
+			var $tpl = $(el);
+			$tpl.after(juicer($tpl.html(), data));
+			if(callback) callback();
+		}
 	};
 });

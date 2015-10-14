@@ -5,9 +5,8 @@
  * 2.qiao.plugin.tab
  * 3.qiao.plugin.slide
  * 4.qiao.plugin.holder
- * 5.qiao.plugin.juicer
- * 6.qiao.plugin.loading
- * 7.qiao.plugin.mask
+ * 5.qiao.plugin.loading
+ * 6.qiao.plugin.mask
  */
 define(function (require, exports, module) {
     'use strict';
@@ -110,18 +109,6 @@ define(function (require, exports, module) {
             var $this = $(this);
             if($.trim($this.val()) === '') $this.val($this.data('holder'));
         });
-	};
-	
-	/**
-	 * qiao.plugin.juicer
-	 * 对juicer进行封装
-	 */
-	exports.juicer = function(el, data, callback){
-		if(el){
-			var $tpl = $(el);
-			$tpl.after(juicer($tpl.html(), data));
-			if(callback) callback();
-		}
 	};
 	
 	/**

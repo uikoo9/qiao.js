@@ -10,6 +10,7 @@
  * 8.qiao.end
  * 9.qiao.cookie
  * 10.qiao.search
+ * 11.qiao.juicer
  */
 var qiao = {};
 
@@ -235,4 +236,16 @@ qiao.search = function(key){
 	}
 	
 	return res;
+};
+
+/**
+ * qiao.juicer
+ * 对juicer进行封装
+ */
+qiao.juicer = function(el, data, callback){
+	if(el){
+		var $tpl = $(el);
+		$tpl.after(juicer($tpl.html(), data));
+		if(callback) callback();
+	}
 };
