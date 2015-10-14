@@ -116,10 +116,11 @@ define(function (require, exports, module) {
 	 * qiao.plugin.juicer
 	 * 对juicer进行封装
 	 */
-	exports.juicer = function(el, data){
+	exports.juicer = function(el, data, callback){
 		if(el){
 			var $tpl = $(el);
 			$tpl.after(juicer($tpl.html(), data));
+			if(callback) callback();
 		}
 	};
 	
