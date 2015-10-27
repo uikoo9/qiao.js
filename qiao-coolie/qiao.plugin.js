@@ -156,7 +156,7 @@ define(function (require, exports, module) {
 			}
 			
 			qiao.on('.ng-mask', 'click', function(e){if(e.target.className == 'ng-mask') $mask.remove();});
-			qiao.on('.ng-login-title .close', 'click', function(){$mask.remove();});
+			qiao.on('.ng-close', 'click', function(){$mask.remove();});
 		}
 	};
 });
