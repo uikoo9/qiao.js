@@ -142,21 +142,26 @@ define(function (require, exports, module) {
 			var height = $window.height();
 			var $mask = $('<div class="ng-mask"></div>').css({width: width+'px', height: height+'px'});
 			
-			var el = options.el;
 			var mheight = options.top || height/10 + 'px';
-			if(el){
-				var $el = $(el).css({'margin-top':mheight, 'margin-left':'auto', 'margin-right':'auto'});
-				$mask.appendTo($('body')).show().append($el.slideDown());
+			var $html = $(options.html).css({'margin-top':mheight, 'margin-left':'auto', 'margin-right':'auto'});
+
+			var animate = options.animate;
+			if(animate){
+				$mask.appendTo($('body')).show().append($html.show().addClass('animated bounceIn'));
 			}else{
-				var html = options.html;
-				if(html){
-					var $html = $(html).css({'margin-top':mheight, 'margin-left':'auto', 'margin-right':'auto'});
-					$mask.appendTo($('body')).show().append($html.show());
-				}
+				$mask.appendTo($('body')).show().append($html.show());
 			}
 			
-			qiao.on('.ng-mask', 'click', function(e){if(e.target.className == 'ng-mask') $mask.remove();});
-			qiao.on('.ng-close', 'click', function(){$mask.remove();});
+			qiao.on('.ng-close', 'click', function(){
+				if(animate){
+					$html.removeClass('bounceIn').addClass('bounceOut');
+					setTimeout(function(){
+						$mask.remove();
+					},800);
+				}else{
+					$mask.remove();
+				}
+			});
 		}
 	};
 });
