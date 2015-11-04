@@ -455,6 +455,15 @@ $.fn.bspop = function(options){
 	
 	$(this).popover(opt);
 };
+qiao.bs.tree = {};
+qiao.bs.tree.options = {
+	url 	: '',
+	height 	: '600px',
+	open	: true,
+	edit	: false,
+	checkbox: false,
+	showurl	: true
+};
 $.fn.bstree = function(options){
 	var opt = $.extend({}, qiao.bs.tree.options);
 	if(options){
