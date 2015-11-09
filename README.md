@@ -32,9 +32,7 @@ qiao.bs.js
 
 ## 文件结构
 	|--_other：无关的东西
+	|--coolie：模块化的qiao.js
 	|--plugins：qiao.util.js中一些方法的示例
-	|--qiao
-	   |--qiao.bs.js：bootstrap的封装
-	   |--qiao.util.js：一些常用的js方法
-	|--qiao-coolie：模块化的qiao.js
+	|--qiao.h.js:对html5+的封装
 	|--qiao.js：qiao.util.js+qiao.bs.js
