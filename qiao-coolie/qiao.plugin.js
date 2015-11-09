@@ -140,7 +140,7 @@ define(function (require, exports, module) {
 			var $window = $(window);
 			var width = $window.width();
 			var height = $window.height();
-			var $mask = $('<div class="ng-mask"></div>').css({width: width+'px', height: height+'px'});
+			var $mask = $('<div class="ng-mask"></div>').css({'position':'fixed','z-index':3000,'left':0,'top':0,'background-color':'rgba(0,0,0,0.4)','width':width+'px','height':height+'px'});
 			
 			var mheight = options.top || height/10 + 'px';
 			var $html = $(options.html).css({'margin-top':mheight, 'margin-left':'auto', 'margin-right':'auto'});
