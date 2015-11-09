@@ -2,8 +2,15 @@ var qiao = {};
 qiao.on = function(obj, event, func){
 	$(document).off(event, obj).on(event, obj, func);
 };
+qiao.juicer = function(el, data, callback){
+	if(el){
+		var $tpl = $(el);
+		$tpl.after(juicer($tpl.html(), data));
+		if(callback) callback();
+	}
+};
 
-var qiao.h = {};
+qiao.h = {};
 // page相关
 qiao.h.normalStyle = {top:'45px',bottom:0};
 qiao.h.normalPage = function(id){
