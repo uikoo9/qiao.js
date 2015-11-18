@@ -269,7 +269,8 @@ qiao.bs.modaloptions = {
 	backdrop: 'static',
 	keyboard: true,
 	style	: '',
-	mstyle	: ''
+	mstyle	: '',
+	callback: null
 };
 qiao.bs.modalstr = function(opt){
 	var start = '<div class="modal '+opt.fade+'" id="bsmodal" tabindex="-1" role="dialog" aria-labelledby="bsmodaltitle" aria-hidden="true" style="position:fixed;top:20px;'+opt.style+'">';
@@ -376,7 +377,13 @@ qiao.bs.dialog = function(options, func){
 	$('body').append(qiao.bs.modalstr(opt));
 	
 	// ajax page
-	qiao.ajax({url:options.url,dataType:'html'}, function(html){$('#bsmodal div.modal-body').empty().append(html);});
+	qiao.ajax({
+		url:options.url,
+		dataType:'html'
+	}, function(html){
+		$('#bsmodal div.modal-body').empty().append(html);
+		if(options.callback) options.callback();
+	});
 		
 	// init
 	var $modal = $('#bsmodal'); 
