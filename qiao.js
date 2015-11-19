@@ -253,6 +253,7 @@ qiao.search = function(key){
  */
 qiao.bs 	= {};
 qiao.bs.modaloptions = {
+	id		: 'bsmodal',
 	url 	: '',
 	fade	: 'fade',
 	close	: true,
@@ -273,7 +274,7 @@ qiao.bs.modaloptions = {
 	callback: null
 };
 qiao.bs.modalstr = function(opt){
-	var start = '<div class="modal '+opt.fade+'" id="bsmodal" tabindex="-1" role="dialog" aria-labelledby="bsmodaltitle" aria-hidden="true" style="position:fixed;top:20px;'+opt.style+'">';
+	var start = '<div class="modal '+opt.fade+'" id="' + opt.id + '" tabindex="-1" role="dialog" aria-labelledby="bsmodaltitle" aria-hidden="true" style="position:fixed;top:20px;'+opt.style+'">';
 	if(opt.big){
 		start += '<div class="modal-dialog modal-lg" style="'+opt.mstyle+'"><div class="modal-content">';
 	}else{
@@ -318,7 +319,7 @@ qiao.bs.alert = function(options, func){
 	$('body').append(qiao.bs.modalstr(opt));
 	
 	// init
-	var $modal = $('#bsmodal'); 
+	var $modal = $('#' + opt.id); 
 	$modal.modal(opt);
 	
 	// bind
@@ -326,7 +327,7 @@ qiao.bs.alert = function(options, func){
 		if(func) func();
 		$modal.modal('hide');
 	});
-	qiao.on('#bsmodal', 'hidden.bs.modal', function(){
+	qiao.on('#' + opt.id, 'hidden.bs.modal', function(){
 		$modal.remove();
 	});
 	
@@ -349,7 +350,7 @@ qiao.bs.confirm = function(options, ok, cancel){
 	$('body').append(qiao.bs.modalstr(opt));
 	
 	// init
-	var $modal = $('#bsmodal'); 
+	var $modal = $('#' + opt.id); 
 	$modal.modal(opt);
 	
 	// bind
@@ -361,7 +362,7 @@ qiao.bs.confirm = function(options, ok, cancel){
 		if(cancel) cancel();
 		$modal.modal('hide');
 	});
-	qiao.on('#bsmodal', 'hidden.bs.modal', function(){
+	qiao.on('#' + opt.id, 'hidden.bs.modal', function(){
 		$modal.remove();
 	});
 	
@@ -381,12 +382,12 @@ qiao.bs.dialog = function(options, func){
 		url:options.url,
 		dataType:'html'
 	}, function(html){
-		$('#bsmodal div.modal-body').empty().append(html);
+		$('#' + opt.id + ' div.modal-body').empty().append(html);
 		if(options.callback) options.callback();
 	});
 		
 	// init
-	var $modal = $('#bsmodal'); 
+	var $modal = $('#' + opt.id); 
 	$modal.modal(opt);
 	
 	// bind
@@ -400,7 +401,7 @@ qiao.bs.dialog = function(options, func){
 			$modal.modal('hide');
 		}
 	});
-	qiao.on('#bsmodal', 'hidden.bs.modal', function(){
+	qiao.on('#' + opt.id, 'hidden.bs.modal', function(){
 		$modal.remove();
 	});
 	
