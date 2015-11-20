@@ -49,6 +49,23 @@ define(function (require, exports, module) {
 	};
 	
 	/**
+	 * qiao.plugin.lunbo
+	 * 另外一种轮播效果
+	 */
+	exports.lunbo = function(el){
+		var $first = $(el + ' :first');
+		exports.lunboit($first, $first);
+	};
+	exports.lunboit = function($first, $item){
+		var $next = $item.next().length ? $item.next() : $first;
+		$item.fadeOut(2500, function(){
+			$next.fadeIn(1500, function(){
+				exports.lunboit($first, $next);
+			});
+		});
+	};
+	
+	/**
 	 * qiao.plugin.tab
 	 * 选项卡组件
 	 */
