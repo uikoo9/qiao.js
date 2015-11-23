@@ -373,6 +373,7 @@ qiao.bs.dialog = function(options, func){
 	// options
 	var opt = $.extend({}, qiao.bs.modaloptions, options);
 	opt.big = true;
+	opt.btn = true;
 	
 	// append
 	$('body').append(qiao.bs.modalstr(opt));
@@ -400,6 +401,9 @@ qiao.bs.dialog = function(options, func){
 		if(flag){
 			$modal.modal('hide');
 		}
+	});
+	qiao.on('button.bscancel', 'click', function(){
+		$modal.modal('hide');
 	});
 	qiao.on('#' + opt.id, 'hidden.bs.modal', function(){
 		$modal.remove();
