@@ -373,7 +373,6 @@ qiao.bs.dialog = function(options, func){
 	// options
 	var opt = $.extend({}, qiao.bs.modaloptions, options);
 	opt.big = true;
-	opt.btn = true;
 	
 	// append
 	$('body').append(qiao.bs.modalstr(opt));
