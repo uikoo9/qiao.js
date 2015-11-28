@@ -94,7 +94,6 @@ define(function (require, exports, module) {
 	exports.ajax = function(options, success, fail){
 		if(options){
 			var opt = exports.ajaxopt(options);
-			
 			$.ajax(opt).done(function(obj){
 				if(success) success(obj);
 			}).fail(function(e){
@@ -200,5 +199,19 @@ define(function (require, exports, module) {
 			$tpl.after(juicer($tpl.html(), data));
 			if(callback) callback();
 		}
+	};
+	
+	/**
+	 * qiao.rem
+	 * rem调整fontsize
+	 */
+	exports.rem = function(){
+		var docEl = document.documentElement;
+		var clientWidth = docEl.clientWidth;
+		if (!clientWidth) return;
+		
+		var fontsize = 20 * (clientWidth / 320);
+		if(fontsize > 40) return;
+		docEl.style.fontSize = fontsize + 'px';
 	};
 });
