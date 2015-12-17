@@ -10,6 +10,11 @@
  * 8.qiao.cookie
  * 9.qiao.search
  * 10.qiao.juicer 
+ * 11.qiao.rem
+ * @author qiaowenbin
+ * @version 0.1.0.20151217
+ * @history
+ * 	0.1.0.20151217<br>
  */
 define(function (require, exports, module) {
     'use strict';

@@ -2,11 +2,16 @@
  * qiao.plugin.js
  * 注：牛股王用到的一些组件
  * 1.qiao.plugin.lun
- * 2.qiao.plugin.tab
- * 3.qiao.plugin.slide
- * 4.qiao.plugin.holder
- * 5.qiao.plugin.loading
- * 6.qiao.plugin.mask
+ * 2.qiao.plugin.lunbo
+ * 3.qiao.plugin.tab
+ * 4.qiao.plugin.slide
+ * 5.qiao.plugin.holder
+ * 6.qiao.plugin.loading
+ * 7.qiao.plugin.mask
+ * @author qiaowenbin
+ * @version 0.1.0.20151217
+ * @history
+ * 	0.1.0.20151217<br>
  */
 define(function (require, exports, module) {
     'use strict';

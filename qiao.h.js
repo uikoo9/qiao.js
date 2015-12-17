@@ -1,3 +1,6 @@
+/**
+ * 0.1.0.20151217
+ */
 var qiao = {};
 qiao.on = function(obj, event, func){
 	$(document).off(event, obj).on(event, obj, func);
