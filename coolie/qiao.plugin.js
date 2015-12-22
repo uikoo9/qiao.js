@@ -137,12 +137,12 @@ define(function (require, exports, module) {
 	 * qiao.plugin.loading
 	 * loading组件
 	 */
-	exports.loading = function(el){
-		if(el == 'hide'){
-			$('#ngloading').hide().remove();
+	exports.loading = function(el, hide){
+		if(hide){
+			$(el + ' .ng-loading').hide().remove();
 		}else{
 			var loadingimg = require('../../../img/loading.gif', 'image');
-			var $loading = $('<div class="ng-loading" id="ngloading"><img src="' + loadingimg + '" /></div>');
+			var $loading = $('<div class="ng-loading"><img src="' + loadingimg + '" /></div>');
 			var $el = $(el);
 			var top = $el.offset().top + 'px';
 			var left = $el.offset().left + 'px';

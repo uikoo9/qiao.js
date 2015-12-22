@@ -105,7 +105,7 @@ define(function (require, exports, module) {
 				if(fail){
 					fail(e);
 				}else{
-					alert('数据传输失败，请重试！');
+					console.log('数据传输失败，请重试！');
 				}
 			});
 		}
@@ -160,13 +160,17 @@ define(function (require, exports, module) {
 	 * qiao.cookie(key, value)：设置key-value的cookie
 	 * 可以参考：plugins/_05_qcookie/qcookie.html
 	 */
-	exports.cookie = function(key, value){
+	exports.cookie = function(key, value, domain){
 		if(typeof value == 'undefined'){
 			return $.cookie(key);
-		}else if(value == null){
-			$.cookie(key, value, {path:'/', expires: -1});
 		}else{
-			$.cookie(key, value, {path:'/', expires:1});
+			var opt = {
+				path : '/',
+				expires : (value == null) ? -1 : 1
+			};
+			if(domain) opt.domain = domain;
+			
+			$.cookie(key, value, opt);
 		}
 	};
 	
