@@ -4,7 +4,6 @@ var RADIUS = 8;
 var MARGIN_TOP = 60;
 var MARGIN_LEFT = 30;
 
-const endTime = new Date(2014,6,11,18,47,52);
 var curShowTimeSeconds = 0
 
 var balls = [];
@@ -12,9 +11,9 @@ const colors = ["#33B5E5","#0099CC","#AA66CC","#9933CC","#99CC00","#669900","#FF
 
 window.onload = function(){
 
-    WINDOW_WIDTH = document.body.clientWidth
-    WINDOW_HEIGHT = document.body.clientHeight
-
+    WINDOW_WIDTH = document.body.clientWidth;
+    WINDOW_HEIGHT = document.body.clientHeight;
+    
     MARGIN_LEFT = Math.round(WINDOW_WIDTH /10);
     RADIUS = Math.round(WINDOW_WIDTH * 4 / 5 / 108)-1
 
@@ -39,10 +38,9 @@ window.onload = function(){
 
 function getCurrentShowTimeSeconds() {
     var curTime = new Date();
-    var ret = endTime.getTime() - curTime.getTime();
-    ret = Math.round( ret/1000 )
+    var ret = curTime.getHours() * 3600 + curTime.getMinutes() * 60 + curTime.getSeconds();
 
-    return ret >= 0 ? ret : 0;
+    return ret;
 }
 
 function update(){
@@ -83,8 +81,6 @@ function update(){
     }
 
     updateBalls();
-
-    console.log( balls.length)
 }
 
 function updateBalls(){
