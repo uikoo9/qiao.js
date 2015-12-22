@@ -186,4 +186,66 @@ define(function (require, exports, module) {
 			});
 		}
 	};
+	
+	/**
+	 * qiao.plugin.msg
+	 * 对sweetalert(http://t4t5.github.io/sweetalert/)的封装
+	 */
+	exports.msg = {};
+	exports.msg.options = {
+		title 				: null,
+		text 				: null,
+		type 				: null,
+		allowEscapeKey 		: true,
+		customClass 		: null,
+		allowOutsideClick 	: false,
+		showCancelButton 	: false,
+		showConfirmButton 	: true,
+		confirmButtonText 	: '好的',
+		confirmButtonColor 	: '#AEDEF4',
+		cancelButtonText 	: '取消',
+		closeOnConfirm 		: true,
+		closeOnCancel 		: true,
+		imageUrl 			: null,
+		imageSize 			: '80x80',
+		timer 				: null,
+		html 				: false,
+		animation 			: true,
+		inputType 			: 'text',
+		inputPlaceholder 	: null,
+		inputValue 			: null,
+		showLoaderOnConfirm	: false
+	};
+	exports.msg.alert = function(msg, callback){
+		if(msg && (typeof swal != 'undefined')){
+			var opt = $.extend({}, exports.msg.options);
+			opt.title = msg;
+			
+			swal(opt, callback);
+		}
+	};
+	exports.msg.confirm = function(msg, callback){
+		if(msg && (typeof swal != 'undefined')){
+			var opt = $.extend({}, exports.msg.options);
+			opt.title = msg;
+			opt.showCancelButton = true;
+			
+			swal(opt, callback);
+		}
+	};
+	exports.msg.msg = function(opt,callback){
+		if(opt && (typeof swal != 'undefined')){
+			if(opt == 'close'){
+				swal.close();
+			}else if(opt == 'disbtn'){
+				swal.disableButtons();
+			}else if(opt == 'enbtn'){
+				swal.enableButtons();
+			}else{
+				var options = $.extend({}, exports.msg.options, opt);
+
+				swal(options, callback);
+			}
+		}
+	};
 });
