@@ -12,7 +12,7 @@ const colors = ["#33B5E5","#0099CC","#AA66CC","#9933CC","#99CC00","#669900","#FF
 window.onload = function(){
 
     WINDOW_WIDTH = document.body.clientWidth;
-    WINDOW_HEIGHT = document.body.clientHeight;
+    WINDOW_HEIGHT = document.body.clientHeight * 0.95;
     
     MARGIN_LEFT = Math.round(WINDOW_WIDTH /10);
     RADIUS = Math.round(WINDOW_WIDTH * 4 / 5 / 108)-1
