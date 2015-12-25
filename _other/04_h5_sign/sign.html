@@ -1,0 +1,35 @@
+<html>
+<head>
+	<!-- important meta -->
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<meta name="format-detection" content="telephone=no" />
+	
+	<title>write</title>
+	
+	<link rel="stylesheet" type="text/css" href="sign.css"/>
+</head>
+
+<body ondragstart="window.event.returnValue=false;" oncontextmenu="window.event.returnValue=false;" onselectstart="event.returnValue=false;">
+	<!-- 首先有个工作区域 -->
+	<div class="work_area">
+		
+		<!-- 编辑区域 用来写字的 -->
+		<div class="editing_area">
+			<canvas id="canvasEdit"></canvas>
+		</div>
+
+		<!-- 按钮区域 用来显示一些按钮 -->
+		<div class="button_area">
+			<input class="button" name="rewrite" type="button" value="重来" onClick="rewrite()" /> 
+			<input class="button" name="preview" type="button" value="保存" onClick="preview()" /> 
+		</div>
+
+		<div class="work_show" id="previewShow"></div>
+	</div>	
+
+	<script type="text/javascript" src="sign.js"></script>
+</body>
+</html>

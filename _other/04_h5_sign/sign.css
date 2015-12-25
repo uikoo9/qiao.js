@@ -1,0 +1,39 @@
+@CHARSET "UTF-8";
+
+body {
+	margin: 0;
+	padding: 0;
+	overflow-x:hidden;
+}
+
+.work_area {
+	width: 100%;
+	height: auto;
+}
+.work_area .button_area {
+	width: 100%;
+	height: 100px;
+	background-color: #06C;
+	text-align: center;
+}
+.work_area .button_area .button {
+	width: 100px;
+	height: 90px;
+	margin: 5px;
+	border: none;
+	border-radius: none;
+	background-color: #fff;
+	-webkit-appearance: none;
+	font-size: 20px;
+}
+
+.work_area .editing_area {
+	width: 100%;
+	height: 500px;
+	border-bottom: 1px solid #efefef;
+}
+
+.work_show {
+	width: 100%;
+	height: 500px;
+}
