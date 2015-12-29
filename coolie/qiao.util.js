@@ -210,6 +210,8 @@ define(function (require, exports, module) {
      * isIPhone
      * isIPad
      * isIOS
+     * isMobile
+     * isWeixin
      */
     exports.os = function(){
     	var os = {};
@@ -253,6 +255,11 @@ define(function (require, exports, module) {
 	            version:'0.0.0'
 	        };
 	    }
+	    
+	    if(!!ua.match(/AppleWebKit.*Mobile.*/)) os.isMobile = true;
+	    if(/micromessenger/gi.test(ua)) os.isWeixin = true;
+
+	    return os;
     };
     
     /**
@@ -357,13 +364,12 @@ define(function (require, exports, module) {
     	
     	setTimeout(function () {  
     		document.body.removeChild(ifr);
-    		
-    		if(!hasApp && tourl) location.href = tourl; 
+    		if(!hasApp && tourl) location.href = tourl;
     	}, 1100)  
     	
     	var t1 = Date.now();  
     	var ifr = document.createElement("iframe");  
-    	ifr.setAttribute('src', url);  
+    	ifr.setAttribute('src', appurl);  
     	ifr.setAttribute('style', 'display:none');  
     	document.body.appendChild(ifr);  
     	
