@@ -117,7 +117,7 @@ define(function (require, exports, module) {
 	 * qiao.cajax
 	 * cross domain ajax
 	 */
-	exports.ajax = function(options, suc, fail){
+	exports.cajax = function(options, suc, fail){
 		var opt = exports.ajaxopt(options);
 		opt.crossDomain = true;
 		exports.ajax(opt, suc, fail);
