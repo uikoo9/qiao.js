@@ -10,11 +10,12 @@
  * 8.qiao.end
  * 9.qiao.totop
  * 10.qiao.title
- * 11.qiao.browser
- * 12.qiao.app
- * 13.qiao.cookie
- * 14.qiao.juicer 
- * 15.qiao.rem
+ * 11.qiao.os
+ * 12.qiao.browser
+ * 13.qiao.app
+ * 14.qiao.cookie
+ * 15.qiao.juicer 
+ * 16.qiao.rem
  * @author qiaowenbin
  * @version 0.1.1.20151229
  * @history
@@ -202,7 +203,68 @@ define(function (require, exports, module) {
     };
     
     /**
+     * os判断
+     * isWindowsPhone
+     * isAndroid
+     * isAndroidPad
+     * isIPhone
+     * isIPad
+     * isIOS
+     */
+    exports.os = function(){
+    	var os = {};
+
+	    var ua = window.navigator.userAgent;
+	    var matched;
+	    
+	    if ((matched = ua.match(/Windows\sPhone\s(?:OS\s)?([\d\.]+)/))) {
+	        os = {
+	            name: 'Windows Phone',
+	            isWindowsPhone: true,
+	            version: matched[1]
+	        };
+	    } else if(!!ua.match(/Safari/) && (matched = ua.match(/Android[\s\/]([\d\.]+)/))) {
+	        os = {
+	            version: matched[1]
+	        };
+
+	        if ((!!ua.match(/Mobile\s+Safari/))) {
+	            os.name = 'Android';
+	            os.isAndroid = true;
+	        } else {
+	            os.name = 'AndroidPad';
+	            os.isAndroidPad = true;
+	        }
+	    } else if((matched = ua.match(/(iPhone|iPad|iPod)/))) {
+	        var name = matched[1];
+
+	        matched = ua.match(/OS ([\d_\.]+) like Mac OS X/);
+
+	        os = {
+	            name: name,
+	            isIPhone: (name === 'iPhone' || name === 'iPod'),
+	            isIPad: name === 'iPad',
+	            isIOS: true,
+	            version: matched[1].split('_').join('.')
+	        };
+	    } else {
+	        os = {
+	            name:'unknown',
+	            version:'0.0.0'
+	        };
+	    }
+    };
+    
+    /**
      * 浏览器判断，手机版
+     * isUC
+     * isQQ
+     * isFirefox
+     * isIEMobile
+     * isIE
+     * isIELikeWebkit
+     * isWebview
+     * isSafari
      */
     exports.browser = function(){
 	    var browser = {};
