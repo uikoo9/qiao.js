@@ -10,12 +10,15 @@
  * 8.qiao.end
  * 9.qiao.totop
  * 10.qiao.title
- * 11.qiao.cookie
- * 12.qiao.juicer 
- * 13.qiao.rem
+ * 11.qiao.browser
+ * 12.qiao.app
+ * 13.qiao.cookie
+ * 14.qiao.juicer 
+ * 15.qiao.rem
  * @author qiaowenbin
- * @version 0.1.0.20151217
+ * @version 0.1.1.20151229
  * @history
+ * 	0.1.1.20151229<br>
  * 	0.1.0.20151217<br>
  */
 define(function (require, exports, module) {
@@ -196,6 +199,115 @@ define(function (require, exports, module) {
     		var $iframe = $('<iframe src="http://www.baidu.com/img/baidu_jgylogo3.gif" style="display:none;"></iframe>');
     		$iframe.on('load', function(){setTimeout(function(){$iframe.off('load').remove();}, 0);}).appendTo($('body'));
     	}
+    };
+    
+    /**
+     * 浏览器判断，手机版
+     */
+    exports.browser = function(){
+	    var browser = {};
+
+	    var ua = window.navigator.userAgent;
+	    var matched;
+
+	    if((matched = ua.match(/(?:UCWEB|UCBrowser\/)([\d\.]+)/))) {
+	        browser = {
+	            name: 'UC',
+	            isUC: true,
+	            version: matched[1]
+	        };
+	    } else if((matched = ua.match(/MQQBrowser\/([\d\.]+)/))) {
+	        browser = {
+	            name: 'QQ',
+	            isQQ: true,
+	            version: matched[1]
+	        };
+	    } else if ((matched = ua.match(/Firefox\/([\d\.]+)/))) {
+	        browser = {
+	            name: 'Firefox',
+	            isFirefox: true,
+	            version: matched[1]
+	        };
+	    } else if ((matched = ua.match(/MSIE\s([\d\.]+)/)) || (matched = ua.match(/IEMobile\/([\d\.]+)/))) {
+	        browser = {
+	            version: matched[1]
+	        };
+
+	        if (ua.match(/IEMobile/)) {
+	            browser.name = 'IEMobile';
+	            browser.isIEMobile = true;
+	        } else {
+	            browser.name = 'IE';
+	            browser.isIE = true;
+	        }
+
+	        if (ua.match(/Android|iPhone/)) {
+	            browser.isIELikeWebkit = true;
+	        }
+	    } else if((matched = ua.match(/(?:Chrome|CriOS)\/([\d\.]+)/))) {
+	        browser = {
+	            name: 'Chrome',
+	            isChrome: true,
+	            version: matched[1]
+	        };
+
+	        if (ua.match(/Version\/[\d+\.]+\s*Chrome/)) {
+	            browser.name = 'Chrome Webview';
+	            browser.isWebview = true;
+	        }
+	    } else if(!!ua.match(/Safari/) && (matched = ua.match(/Android[\s\/]([\d\.]+)/))) {
+	        browser = {
+	            name: 'Android',
+	            isAndroid: true,
+	            version: matched[1]
+	        };
+	    } else if(ua.match(/iPhone|iPad|iPod/)) {
+	        if(ua.match(/Safari/)) {
+	            matched = ua.match(/Version\/([\d\.]+)/)
+	            browser = {
+	                name: 'Safari',
+	                isSafari: true,
+	                version: matched[1]
+	            };
+	        } else {
+	            matched = ua.match(/OS ([\d_\.]+) like Mac OS X/);
+	            browser = {
+	                name: 'iOS Webview',
+	                isWebview: true,
+	                version: matched[1].replace(/\_/, '.')
+	            };
+	        }
+	    } else {
+	        browser = {
+	            name:'unknown',
+	            version:'0.0.0'
+	        };
+	    }
+	    
+	    return browser;
+    };
+    
+    /**
+     * 判断是否安装某app
+     */
+    exports.app = function(appurl, tourl){
+    	var timeout, t = 1000, hasApp = true;
+    	
+    	setTimeout(function () {  
+    		document.body.removeChild(ifr);
+    		
+    		if(!hasApp && tourl) location.href = tourl; 
+    	}, 1100)  
+    	
+    	var t1 = Date.now();  
+    	var ifr = document.createElement("iframe");  
+    	ifr.setAttribute('src', url);  
+    	ifr.setAttribute('style', 'display:none');  
+    	document.body.appendChild(ifr);  
+    	
+    	timeout = setTimeout(function () {  
+    		if (!t1 || Date.now() - t1 < t + 100) hasApp = false;  
+    	}, t);  
     };
 	
 	/**
