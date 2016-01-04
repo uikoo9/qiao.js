@@ -224,6 +224,24 @@ define(function (require, exports, module) {
 			swal(opt, callback);
 		}
 	};
+	exports.msg.error = function(msg, callback){
+		if(msg && (typeof swal != 'undefined')){
+			var opt = $.extend({}, exports.msg.options);
+			opt.title = msg;
+			opt.type = 'error';
+			
+			swal(opt, callback);
+		}
+	};
+	exports.msg.success = function(msg, callback){
+		if(msg && (typeof swal != 'undefined')){
+			var opt = $.extend({}, exports.msg.options);
+			opt.title = msg;
+			opt.type = 'success';
+			
+			swal(opt, callback);
+		}
+	};
 	exports.msg.confirm = function(msg, callback){
 		if(msg && (typeof swal != 'undefined')){
 			var opt = $.extend({}, exports.msg.options);
