@@ -174,7 +174,7 @@ define(function (require, exports, module) {
 				$mask.appendTo($('body')).show().append($html.show());
 			}
 			
-			qiao.on('.ng-close', 'click', function(){
+			qiao.on('.ng-mask, .ng-close', 'click', function(){
 				if(animate){
 					$html.removeClass('bounceIn').addClass('bounceOut');
 					setTimeout(function(){
