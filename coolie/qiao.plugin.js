@@ -196,7 +196,8 @@ define(function (require, exports, module) {
 				$mask.appendTo($('body')).show().append($html.show());
 			}
 			
-			qiao.on('.ng-mask, .ng-close', 'click', function(){
+			var closeEl = options.bclose ? '.ng-mask, .ng-close' : '.ng-close';
+			qiao.on(closeEl, 'click', function(){
 				if(animate){
 					$html.removeClass('bounceIn').addClass('bounceOut');
 					setTimeout(function(){
