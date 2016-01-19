@@ -159,10 +159,32 @@ define(function (require, exports, module) {
 	 */
 	exports.mask = function(options){
 		if(options){
-			var $window = $(window);
-			var width = $window.width();
-			var height = $window.height();
-			var $mask = $('<div class="ng-mask"></div>').css({'position':'fixed','z-index':3000,'left':0,'top':0,'background-color':'rgba(0,0,0,0.4)','width':width+'px','height':height+'px'});
+			var $el,top,left,height,width;
+			if(options.el){
+				$el = $(options.el);
+				top = $el.offset().top;
+				left = $el.offset().left;
+				height = $el.height();
+				width = $el.width();
+			}else{
+				$el = $(window);
+				top = 0;
+				left = 0;
+				height = $el.height();
+				width = $el.width();
+			}
+			
+			var $mask = 
+				$('<div class="ng-mask"></div>')
+				.css({
+					'position'			: 'absolute',
+					'z-index'			: 3000,
+					'top'				: top,
+					'left'				: left,
+					'width'				: width,
+					'height'			: height,
+					'background-color'	:'rgba(0,0,0,0.4)'
+				});
 			
 			var mheight = options.top || height/10 + 'px';
 			var $html = $(options.html).css({'margin-top':mheight, 'margin-left':'auto', 'margin-right':'auto'});
