@@ -177,7 +177,7 @@ define(function (require, exports, module) {
 			var $mask = 
 				$('<div class="ng-mask"></div>')
 				.css({
-					'position'			: 'absolute',
+					'position'			: options.pos || 'absolute',
 					'z-index'			: 3000,
 					'top'				: top,
 					'left'				: left,
@@ -202,9 +202,11 @@ define(function (require, exports, module) {
 					$html.removeClass('bounceIn').addClass('bounceOut');
 					setTimeout(function(){
 						$mask.remove();
+						if(options.func) options.func();
 					},800);
 				}else{
 					$mask.remove();
+					if(options.func) options.func();
 				}
 			});
 		}
