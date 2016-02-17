@@ -155,7 +155,12 @@ define(function (require, exports, module) {
 	
 	/**
 	 * qiao.plugin.mask
-	 * 遮罩组件
+	 * el：元素
+	 * pos：mask的position
+	 * top：mask和顶部的距离
+	 * bclose：点击mask是否关闭
+	 * animate：mask是否开启动画效果
+	 * func：关闭后的回调函数
 	 */
 	exports.mask = function(options){
 		if(options){
@@ -177,7 +182,7 @@ define(function (require, exports, module) {
 			var $mask = 
 				$('<div class="ng-mask"></div>')
 				.css({
-					'position'			: options.pos || 'absolute',
+					'position'			: options.pos || 'fixed',
 					'z-index'			: 3000,
 					'top'				: top,
 					'left'				: left,
