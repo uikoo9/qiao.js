@@ -14,11 +14,13 @@ define(function (require, exports, module) {
 	exports.init = function(){
 		if(window.WebViewJavascriptBridge){
 			exports.bridge = WebViewJavascriptBridge;
-			exports.bridge.init(function(message, responseCallback){});
+			
+			if(exports.bridge.init) exports.bridge.init(function(message, responseCallback){});
 		}else{
 			document.addEventListener('WebViewJavascriptBridgeReady', function() {
 				exports.bridge = WebViewJavascriptBridge;
-				exports.bridge.init(function(message, responseCallback){});
+			
+				if(exports.bridge.init) exports.bridge.init(function(message, responseCallback){});
 			}, false);
 		}
 	};
@@ -51,16 +53,18 @@ define(function (require, exports, module) {
 					methodtype : 'getUserToken'
 				});
 				
-				bridge.send(msg, function(responseData) {
-					var utoken = '';
-					
-					if(responseData){
-						var json = JSON.parse(responseData);
-						if(json) utoken = json.usertoken;
-					}
-					
-					if(callback) callback(utoken);
-				});
+				if(bridge.send){
+					bridge.send(msg, function(responseData) {
+						var utoken = '';
+						
+						if(responseData){
+							var json = JSON.parse(responseData);
+							if(json) utoken = json.usertoken;
+						}
+						
+						if(callback) callback(utoken);
+					});
+				}
 			});
 		}
 	};
@@ -87,9 +91,11 @@ define(function (require, exports, module) {
 					methodtype : 'getGMToken'
 				});
 				
-				bridge.send(msg, function(responseData) {
-					if(callback) callback(responseData ? JSON.parse(responseData) : {});
-				});
+				if(bridge.send){
+					bridge.send(msg, function(responseData) {
+						if(callback) callback(responseData ? JSON.parse(responseData) : {});
+					});
+				}
 			});
 		}
 	};
@@ -109,7 +115,8 @@ define(function (require, exports, module) {
 					type : type
 				});
 				
-				bridge.send(msg);
+				if(bridge.send) bridge.send(msg);
+    			if(bridge.sendMessage) bridge.sendMessage(msg);
 			});
 		}
 	};
@@ -126,7 +133,8 @@ define(function (require, exports, module) {
 					methodtype : 'closePage'
 				});
 				
-				bridge.send(msg);
+				if(bridge.send) bridge.send(msg);
+    			if(bridge.sendMessage) bridge.sendMessage(msg);
 			});
 		}
 	};
@@ -143,7 +151,8 @@ define(function (require, exports, module) {
 					methodtype : 'login'
 				});
 				
-				bridge.send(msg);
+				if(bridge.send) bridge.send(msg);
+    			if(bridge.sendMessage) bridge.sendMessage(msg);
 			});
 		}
 	};
@@ -161,7 +170,8 @@ define(function (require, exports, module) {
 					fundaccount: fundaccount
 				});
 				
-				bridge.send(msg);
+				if(bridge.send) bridge.send(msg);
+    			if(bridge.sendMessage) bridge.sendMessage(msg);
 			});
 		}
 	};
@@ -178,7 +188,8 @@ define(function (require, exports, module) {
 					methodtype : 'toOpenAccount'
 				});
 				
-				bridge.send(msg);
+				if(bridge.send) bridge.send(msg);
+    			if(bridge.sendMessage) bridge.sendMessage(msg);
 			});
 		}
 	};
@@ -195,7 +206,8 @@ define(function (require, exports, module) {
 					methodtype : 'bindMobile'
 				});
 				
-				bridge.send(msg);
+				if(bridge.send) bridge.send(msg);
+    			if(bridge.sendMessage) bridge.sendMessage(msg);
 			});
 		}
 	};
@@ -228,9 +240,11 @@ define(function (require, exports, module) {
 					methodtype : 'getCameraPhoto'
 				});
 				
-				bridge.send(msg, function(responseData) {
-					if(callback) callback(responseData ? JSON.parse(responseData) : '');
-				});
+				if(bridge.send){
+					bridge.send(msg, function(responseData) {
+						if(callback) callback(responseData ? JSON.parse(responseData) : '');
+					});
+				}
 			});
 		}
 	};
@@ -249,7 +263,8 @@ define(function (require, exports, module) {
 						title : title
 					});
 					
-					bridge.send(msg);
+					if(bridge.send) bridge.send(msg);
+	    			if(bridge.sendMessage) bridge.sendMessage(msg);
 				});
 			}
 		}
@@ -275,7 +290,8 @@ define(function (require, exports, module) {
     				type 			: type
     			});
 				
-				bridge.send(msg);
+    			if(bridge.send) bridge.send(msg);
+    			if(bridge.sendMessage) bridge.sendMessage(msg);
 			});
     	}
     };
