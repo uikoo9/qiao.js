@@ -29,9 +29,9 @@ define(function (require, exports, module) {
 			doit(exports.bridge);
 		}else{
 			if(!exports.iosid){
-				exports.iosid = setTimeout(function(){
+				exports.iosid = setInterval(function(){
 					if(exports.bridge){
-						clearTimeout(exports.iosid);
+						clearInterval(exports.iosid);
 						doit(exports.bridge);
 					}
 				}, 50);
