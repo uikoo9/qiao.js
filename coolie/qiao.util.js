@@ -418,6 +418,9 @@ define(function (require, exports, module) {
 	 * rem调整fontsize
 	 */
 	exports.rem = function(){
+		var os = exports.os();
+		if(os && os.isIOS && parseFloat(os.version) >= 8) $('.ng-border').removeClass('ios').addClass('ios');
+		
 		var docEl = document.documentElement;
 		var clientWidth = docEl.clientWidth;
 		if (!clientWidth) return;
