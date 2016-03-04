@@ -78,6 +78,8 @@ define(function (require, exports, module) {
 			if(callback) callback({
 				niuguToken	: 'i6aoORWJ07DGgfTVELASS2YxtqqJdO5Ypv4Wy7CPW-Q*',
 				tradeToken	: '0GYXSTBL6JOOOOH63ASQ',
+//				niuguToken	: 'KVNjMoqa7mCPGp2qaS97gslijo7NLAnXjaRLZCUksl0z2VGLvjSnWQ**',
+//				tradeToken	: 'WIYQT4NNTMD94DUOVWQW',
 				flowno		: exports.gmflowno++
 			});
 		}else if(typeof android != 'undefined'){
@@ -177,6 +179,24 @@ define(function (require, exports, module) {
 	};
 	
 	/**
+	 * 输入交易密码
+	 */
+	exports.toGMTradepwd = function(){
+		if(typeof android != 'undefined'){
+			if(android.toGMTradepwd) android.toGMTradepwd();
+		}else{
+			exports.ios(function(bridge){
+				var msg = JSON.stringify({
+					methodtype : 'toGMTradepwd'
+				});
+				
+				if(bridge.send) bridge.send(msg);
+				if(bridge.sendMessage) bridge.sendMessage(msg);
+			});
+		}
+	};
+	
+	/**
 	 * 跳转到A股实盘开户页面
 	 */
 	exports.toOpenAccount = function(){
@@ -190,6 +210,25 @@ define(function (require, exports, module) {
 				
 				if(bridge.send) bridge.send(msg);
     			if(bridge.sendMessage) bridge.sendMessage(msg);
+			});
+		}
+	};
+	
+	/**
+	 * 跳转到A股实盘开户页面
+	 */
+	exports.openStockAccount = function(bid){
+		if(typeof android != 'undefined'){
+			if(android.openStockAccount) android.openStockAccount();
+		}else{
+			exports.ios(function(bridge){
+				var msg = JSON.stringify({
+					methodtype 	: 'openStockAccount',
+					brokerId	: bid
+				});
+				
+				if(bridge.send) bridge.send(msg);
+				if(bridge.sendMessage) bridge.sendMessage(msg);
 			});
 		}
 	};
