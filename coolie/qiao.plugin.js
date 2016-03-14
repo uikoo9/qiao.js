@@ -180,7 +180,7 @@ define(function (require, exports, module) {
 			}
 			
 			var $mask = 
-				$('<div class="ng-mask"></div>')
+				$('<div class="ng-mask ng-cursor"></div>')
 				.css({
 					'position'			: options.pos || 'fixed',
 					'z-index'			: 3000,
