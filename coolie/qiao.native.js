@@ -6,6 +6,9 @@ define(function (require, exports, module) {
     'use strict';
     
     var qiao = require('qiao.util.js');
+    var ready = false;
+    var readyCallbacks = [];
+    var bridge;
     
 	/**
 	 * 初始化
@@ -13,29 +16,31 @@ define(function (require, exports, module) {
 	 */
 	exports.init = function(){
 		if(window.WebViewJavascriptBridge){
-			exports.bridge = WebViewJavascriptBridge;
-			
-			if(exports.bridge.init) exports.bridge.init(function(message, responseCallback){});
+			exports.initCallback(window.WebViewJavascriptBridge);
 		}else{
 			document.addEventListener('WebViewJavascriptBridgeReady', function() {
-				exports.bridge = WebViewJavascriptBridge;
-			
-				if(exports.bridge.init) exports.bridge.init(function(message, responseCallback){});
+				exports.initCallback(window.WebViewJavascriptBridge);
 			}, false);
 		}
 	};
-	exports.ios = function(doit){
-		if(exports.bridge){
-			doit(exports.bridge);
+	exports.initCallback = function(b){
+		ready = true;
+
+		bridge = b;
+		if(bridge.init) bridge.init(function(message, responseCallback){});
+		
+		readyCallbacks.forEach(function(callback){callback();});
+	};
+	
+	/**
+	 * ready
+	 * bridge就位后开始执行
+	 */
+	exports.ready = function(callback){
+		if(ready){
+			return callback();
 		}else{
-			if(!exports.iosid){
-				exports.iosid = setInterval(function(){
-					if(exports.bridge){
-						clearInterval(exports.iosid);
-						doit(exports.bridge);
-					}
-				}, 50);
-			}
+			readyCallbacks.push(callback);
 		}
 	};
 	
@@ -48,7 +53,7 @@ define(function (require, exports, module) {
 		}else if(typeof android != 'undefined'){
 			if(callback && android.getUserToken) callback(android.getUserToken());
 		}else{
-			exports.ios(function(bridge){
+			exports.ready(function(){
 				var msg = JSON.stringify({
 					methodtype : 'getUserToken'
 				});
@@ -88,7 +93,7 @@ define(function (require, exports, module) {
 				if(jsonstr) callback(JSON.parse(jsonstr));
 			}
 		}else{
-			exports.ios(function(bridge){
+			exports.ready(function(){
 				var msg = JSON.stringify({
 					methodtype : 'getGMToken'
 				});
@@ -111,7 +116,7 @@ define(function (require, exports, module) {
 		if(typeof android != 'undefined'){
 			if(android.initRefresh) android.initRefresh(type);
 		}else{
-			exports.ios(function(bridge){
+			exports.ready(function(){
 				var msg = JSON.stringify({
 					methodtype : 'initRefresh',
 					type : type
@@ -130,7 +135,7 @@ define(function (require, exports, module) {
 		if(typeof android != 'undefined'){
 			if(android.closePage) android.closePage();
 		}else{
-			exports.ios(function(bridge){
+			exports.ready(function(){
 				var msg = JSON.stringify({
 					methodtype : 'closePage'
 				});
@@ -148,7 +153,7 @@ define(function (require, exports, module) {
 		if(typeof android != 'undefined'){
 			if(android.login) android.login();
 		}else{
-			exports.ios(function(bridge){
+			exports.ready(function(){
 				var msg = JSON.stringify({
 					methodtype : 'login'
 				});
@@ -166,7 +171,7 @@ define(function (require, exports, module) {
 		if(typeof android != 'undefined'){
 			if(android.toGMDetail) android.toGMDetail(fundaccount);
 		}else{
-			exports.ios(function(bridge){
+			exports.ready(function(){
 				var msg = JSON.stringify({
 					methodtype : 'toGMDetail',
 					fundaccount: fundaccount
@@ -185,7 +190,7 @@ define(function (require, exports, module) {
 		if(typeof android != 'undefined'){
 			if(android.toGMTradepwd) android.toGMTradepwd();
 		}else{
-			exports.ios(function(bridge){
+			exports.ready(function(){
 				var msg = JSON.stringify({
 					methodtype : 'toGMTradepwd'
 				});
@@ -203,7 +208,7 @@ define(function (require, exports, module) {
 		if(typeof android != 'undefined'){
 			if(android.toOpenAccount) android.toOpenAccount();
 		}else{
-			exports.ios(function(bridge){
+			exports.ready(function(){
 				var msg = JSON.stringify({
 					methodtype : 'toOpenAccount'
 				});
@@ -221,7 +226,7 @@ define(function (require, exports, module) {
 		if(typeof android != 'undefined'){
 			if(android.openStockAccount) android.openStockAccount();
 		}else{
-			exports.ios(function(bridge){
+			exports.ready(function(){
 				var msg = JSON.stringify({
 					methodtype 	: 'openStockAccount',
 					brokerId	: bid
@@ -240,7 +245,7 @@ define(function (require, exports, module) {
 		if(typeof android != 'undefined'){
 			if(android.bindMobile) android.bindMobile();
 		}else{
-			exports.ios(function(bridge){
+			exports.ready(function(){
 				var msg = JSON.stringify({
 					methodtype : 'bindMobile'
 				});
@@ -274,7 +279,7 @@ define(function (require, exports, module) {
 //			android.getCameraPhoto();
 			callback({});
 		}else{
-			exports.ios(function(bridge){
+			exports.ready(function(){
 				var msg = JSON.stringify({
 					methodtype : 'getCameraPhoto'
 				});
@@ -296,7 +301,7 @@ define(function (require, exports, module) {
 			if(typeof android != 'undefined'){
 				if(android.setWebTitle) android.setWebTitle(title);
 			}else{
-				exports.ios(function(bridge){
+				exports.ready(function(){
 					var msg = JSON.stringify({
 						methodtype : 'settitle',
 						title : title
@@ -320,7 +325,7 @@ define(function (require, exports, module) {
     	if(typeof android != 'undefined'){
     		if(android.initShare) android.initShare(title, content, url, type);
     	}else{
-    		exports.ios(function(bridge){
+    		exports.ready(function(){
     			var msg = JSON.stringify({
     				methodtype 		: 'initShare',
     				shareTitle 		: title,
