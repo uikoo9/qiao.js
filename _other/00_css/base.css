@@ -5,3 +5,8 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
+
+.text-wrap{
+	white-space: pre-wrap;
+    word-wrap: break-word;
+}
