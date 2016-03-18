@@ -1,11 +1,51 @@
 @CHARSET "UTF-8";
 
+/*
+	border
+*/
+.border-all{
+	border: 1px solid #e5e5e5;
+}
+.border-left{
+	border-left: 1px solid #e5e5e5;
+}
+.border-right{
+	border-right: 1px solid #e5e5e5;
+}
+.border-top{
+	border-top: 1px solid #e5e5e5;
+}
+.border-bottom{
+	border-bottom: 1px solid #e5e5e5;
+}
+
+/* 
+	text-align
+*/
+.text-left{
+	text-align: left;
+}
+.text-center{
+	text-align: center;
+}
+.text-right{
+	text-align: right;
+}
+
+/* 
+	text-ellipsis
+	文本超长使用省略号
+*/
 .text-ellipsis{
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
 
+/*
+	text-wrap
+	文本自动换行
+*/
 .text-wrap{
 	white-space: pre-wrap;
     word-wrap: break-word;
