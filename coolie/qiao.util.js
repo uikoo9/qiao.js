@@ -10,15 +10,15 @@
  * 8.qiao.end
  * 9.qiao.totop
  * 10.qiao.title
- * 11.qiao.os
- * 12.qiao.browser
- * 13.qiao.app
- * 14.qiao.cookie
- * 15.qiao.juicer 
- * 16.qiao.rem
+ * 11.qiao.vendor
+ * 12.qiao.app
+ * 13.qiao.cookie
+ * 14.qiao.juicer 
+ * 15.qiao.rem
  * @author qiaowenbin
- * @version 0.1.1.20151229
+ * @version 0.1.2.20160322
  * @history
+ * 	0.1.2.20160322<br>
  * 	0.1.1.20151229<br>
  * 	0.1.0.20151217<br>
  */
@@ -201,159 +201,26 @@ define(function (require, exports, module) {
     		$iframe.on('load', function(){setTimeout(function(){$iframe.off('load').remove();}, 0);}).appendTo($('body'));
     	}
     };
-    
+
     /**
-     * os判断
-     * isWindowsPhone
-     * isAndroid
-     * isAndroidPad
-     * isIPhone
-     * isIPad
-     * isIOS
-     * isMobile
-     * isWeixin
+     * 判断vendor 
      */
-    exports.os = function(){
-    	var os = {};
-
-	    var ua = window.navigator.userAgent;
-	    var matched;
-	    
-	    if ((matched = ua.match(/Windows\sPhone\s(?:OS\s)?([\d\.]+)/))) {
-	        os = {
-	            name: 'Windows Phone',
-	            isWindowsPhone: true,
-	            version: matched[1]
-	        };
-	    } else if(!!ua.match(/Safari/) && (matched = ua.match(/Android[\s\/]([\d\.]+)/))) {
-	        os = {
-	            version: matched[1]
-	        };
-
-	        if ((!!ua.match(/Mobile\s+Safari/))) {
-	            os.name = 'Android';
-	            os.isAndroid = true;
-	        } else {
-	            os.name = 'AndroidPad';
-	            os.isAndroidPad = true;
-	        }
-	    } else if((matched = ua.match(/(iPhone|iPad|iPod)/))) {
-	        var name = matched[1];
-
-	        matched = ua.match(/OS ([\d_\.]+) like Mac OS X/);
-
-	        os = {
-	            name: name,
-	            isIPhone: (name === 'iPhone' || name === 'iPod'),
-	            isIPad: name === 'iPad',
-	            isIOS: true,
-	            version: matched[1].split('_').join('.')
-	        };
-	    } else {
-	        os = {
-	            name:'unknown',
-	            version:'0.0.0'
-	        };
-	    }
-	    
-	    if(!!ua.match(/AppleWebKit.*Mobile.*/)) os.isMobile = true;
-	    if(/micromessenger/gi.test(ua)) os.isWeixin = true;
-
-	    return os;
-    };
-    
-    /**
-     * 浏览器判断，手机版
-     * isUC
-     * isQQ
-     * isFirefox
-     * isIEMobile
-     * isIE
-     * isIELikeWebkit
-     * isWebview
-     * isSafari
-     */
-    exports.browser = function(){
-	    var browser = {};
-
-	    var ua = window.navigator.userAgent;
-	    var matched;
-
-	    if((matched = ua.match(/(?:UCWEB|UCBrowser\/)([\d\.]+)/))) {
-	        browser = {
-	            name: 'UC',
-	            isUC: true,
-	            version: matched[1]
-	        };
-	    } else if((matched = ua.match(/MQQBrowser\/([\d\.]+)/))) {
-	        browser = {
-	            name: 'QQ',
-	            isQQ: true,
-	            version: matched[1]
-	        };
-	    } else if ((matched = ua.match(/Firefox\/([\d\.]+)/))) {
-	        browser = {
-	            name: 'Firefox',
-	            isFirefox: true,
-	            version: matched[1]
-	        };
-	    } else if ((matched = ua.match(/MSIE\s([\d\.]+)/)) || (matched = ua.match(/IEMobile\/([\d\.]+)/))) {
-	        browser = {
-	            version: matched[1]
-	        };
-
-	        if (ua.match(/IEMobile/)) {
-	            browser.name = 'IEMobile';
-	            browser.isIEMobile = true;
-	        } else {
-	            browser.name = 'IE';
-	            browser.isIE = true;
-	        }
-
-	        if (ua.match(/Android|iPhone/)) {
-	            browser.isIELikeWebkit = true;
-	        }
-	    } else if((matched = ua.match(/(?:Chrome|CriOS)\/([\d\.]+)/))) {
-	        browser = {
-	            name: 'Chrome',
-	            isChrome: true,
-	            version: matched[1]
-	        };
-
-	        if (ua.match(/Version\/[\d+\.]+\s*Chrome/)) {
-	            browser.name = 'Chrome Webview';
-	            browser.isWebview = true;
-	        }
-	    } else if(!!ua.match(/Safari/) && (matched = ua.match(/Android[\s\/]([\d\.]+)/))) {
-	        browser = {
-	            name: 'Android',
-	            isAndroid: true,
-	            version: matched[1]
-	        };
-	    } else if(ua.match(/iPhone|iPad|iPod/)) {
-	        if(ua.match(/Safari/)) {
-	            matched = ua.match(/Version\/([\d\.]+)/)
-	            browser = {
-	                name: 'Safari',
-	                isSafari: true,
-	                version: matched[1]
-	            };
-	        } else {
-	            matched = ua.match(/OS ([\d_\.]+) like Mac OS X/);
-	            browser = {
-	                name: 'iOS Webview',
-	                isWebview: true,
-	                version: matched[1].replace(/\_/, '.')
-	            };
-	        }
-	    } else {
-	        browser = {
-	            name:'unknown',
-	            version:'0.0.0'
-	        };
-	    }
-	    
-	    return browser;
+    exports.vendor = function(){
+    	var ua = window.navigator.userAgent;
+    	
+    	var vendor = {};
+    	vendor.mobile 	= /AppleWebKit.*Mobile.*/.test(ua);
+    	vendor.android	= /android/gi.test(ua);
+    	vendor.ios 		= /(iphone|ipad|ipod)/gi.test(ua);
+    	vendor.iphone 	= /iphone/gi.test(ua);
+    	vendor.ipad 	= /ipad/gi.test(ua);
+    	vendor.ipod 	= /ipod/gi.test(ua);
+    	vendor.weixin 	= /micromessenger/gi.test(ua);
+    	vendor.qq 		= / qq/gi.test(ua);
+    	vendor.qqb 		= /mqqbrowser/gi.test(ua);
+    	vendor.weibo 	= /weibo/gi.test(ua);
+    	
+    	return vendor;
     };
     
     /**
@@ -418,8 +285,7 @@ define(function (require, exports, module) {
 	 * rem调整fontsize
 	 */
 	exports.rem = function(){
-		var os = exports.os();
-		if(os && os.isIOS && parseFloat(os.version) >= 8) $('.ng-border').removeClass('ios').addClass('ios');
+		if(exports.vendor().ios) $('.ng-border').removeClass('ios').addClass('ios');
 		
 		var docEl = document.documentElement;
 		var clientWidth = docEl.clientWidth;
