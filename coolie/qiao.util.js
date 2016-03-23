@@ -111,6 +111,7 @@ define(function (require, exports, module) {
 				if(fail){
 					fail(e);
 				}else{
+					console.log(JSON.stringify(e));
 					console.log('数据传输失败，请重试！');
 				}
 			});
@@ -124,6 +125,11 @@ define(function (require, exports, module) {
 	exports.cajax = function(options, suc, fail){
 		var opt = exports.ajaxopt(options);
 		opt.crossDomain = true;
+		
+		console.log(opt.url);
+		
+		$('body').append('<iframe src="' + opt.url + '"></iframe>');
+		
 		exports.ajax(opt, suc, fail);
 	};
 	
@@ -219,6 +225,11 @@ define(function (require, exports, module) {
     	vendor.qq 		= / qq/gi.test(ua);
     	vendor.qqb 		= /mqqbrowser/gi.test(ua);
     	vendor.weibo 	= /weibo/gi.test(ua);
+    	var matched;
+    	if((matched = ua.match(/MSIE\s([\d\.]+)/)) || (matched = ua.match(/IEMobile\/([\d\.]+)/))){
+    		vendor.ie = true;
+    		vendor.version = matched[1];
+    	}
     	
     	return vendor;
     };
