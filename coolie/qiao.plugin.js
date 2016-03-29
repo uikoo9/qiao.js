@@ -138,12 +138,14 @@ define(function (require, exports, module) {
 	 * loading组件
 	 */
 	exports.loading = function(el, hide){
+		var $el = $(el);
+		if(!$el.length) return;
+
 		if(hide){
-			$(el + ' .ng-loading').hide().remove();
+			if($el.find('.ng-loading').length) $el.find('.ng-loading').hide().remove();
 		}else{
 			var loadingimg = require('../../../img/loading.gif', 'image');
 			var $loading = $('<div class="ng-loading"><img src="' + loadingimg + '" /></div>');
-			var $el = $(el);
 			var top = $el.offset().top + 'px';
 			var left = $el.offset().left + 'px';
 			var height = $el.height() + 'px';
