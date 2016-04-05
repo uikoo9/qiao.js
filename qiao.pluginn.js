@@ -1,11 +1,22 @@
 (function($){
 	
+	/**
+	 * 遮罩插件
+	 * $('#id').qloading(options);
+	 * hide		: 隐藏遮罩，默认为false
+	 * zindex	: 遮罩背景的zindex，默认为9000
+	 * bgcolor	: 遮罩背景的色值，默认为#fff，也可以使用rgba色值
+	 * imgurl	: 遮罩中间的图片地址
+	 * imgwidth	: 遮罩中间的图片宽度
+	 * imgheight: 遮罩中间的图片高度
+	 * imgzindex: 遮罩中间的图片zindex，默认为9001
+	 */
 	$.fn.qloading = function(opts){
 		var defaults = {
 			hide		: false,
 			zindex		: 9000,
 			bgcolor		: '#fff',
-			img 		: '//img.niuguwang.com/static/img/0/loading.gif',
+			imgurl		: '//img.niuguwang.com/static/img/0/loading.gif',
 			imgwidth	: 64,
 			imgheight	: 64,
 			imgzindex	: 9001
@@ -24,7 +35,7 @@
 				var width = $el.width();
 				var imgmargin = '-' + parseInt(options.imgheight/2) + 'px 0 0 -' + parseInt(options.imgwidth/2) + 'px';
 				
-				$('<div class="ng-loading"><img src="' + options.img + '" /></div>')
+				$('<div class="ng-loading"><img src="' + options.imgurl + '" /></div>')
 					.css({
 						'position'			: 'absolute',
 						'z-index'			: options.zindex,

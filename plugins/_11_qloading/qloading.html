@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>qloading demo</title>
+		
+		<style type="text/css">
+			html,body{
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<p>遮罩中的图片路径使用//开头，所以请不要用file://方式打开该也页面</p>
+		<button id="beginbtn">开始，5秒后自动关闭遮罩</button>
+		
+		<!-- 需要引入jquery -->
+		<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+		
+		<!-- 引入qiao.pluginn.js -->
+		<script src="../../qiao.pluginn.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$('#beginbtn').click(function(){
+				$('html').qloading();
+				setTimeout(function(){$('html').qloading({hide: true});}, 5000);
+			});
+		</script>
+	</body>
+</html>
