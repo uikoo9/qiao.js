@@ -2,8 +2,10 @@
 	
 	/**
 	 * 遮罩插件
-	 * $('#id').qloading(options);
-	 * options如下，默认配置在这里$.fn.qloading.defaults
+	 * 使用：$('#id').qloading(options);
+	 * 详见：/plugins/_11_qloading/qloading.html
+	 * options：定制选项，默认配置见$.fn.qloading.defaults
+	 * 
 	 * hide		: 隐藏遮罩，默认为false
 	 * zindex	: 遮罩背景的zindex，默认为9000
 	 * bgcolor	: 遮罩背景的色值，默认为#fff，也可以使用rgba色值
