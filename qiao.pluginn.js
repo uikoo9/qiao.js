@@ -3,6 +3,7 @@
 	/**
 	 * 遮罩插件
 	 * $('#id').qloading(options);
+	 * options如下，默认配置在这里$.fn.qloading.defaults
 	 * hide		: 隐藏遮罩，默认为false
 	 * zindex	: 遮罩背景的zindex，默认为9000
 	 * bgcolor	: 遮罩背景的色值，默认为#fff，也可以使用rgba色值
@@ -12,16 +13,7 @@
 	 * imgzindex: 遮罩中间的图片zindex，默认为9001
 	 */
 	$.fn.qloading = function(opts){
-		var defaults = {
-			hide		: false,
-			zindex		: 9000,
-			bgcolor		: '#fff',
-			imgurl		: '//img.niuguwang.com/static/img/0/loading.gif',
-			imgwidth	: 64,
-			imgheight	: 64,
-			imgzindex	: 9001
-		};
-		var options = $.extend(defaults, opts); 
+		var options = $.extend({}, $.fn.qloading.defaults, opts); 
 		
 		return this.each(function(){
 			var $el = $(this);
@@ -57,6 +49,15 @@
 					}).show().end().show();
 			}
 		});
+	};
+	$.fn.qloading.defaults = {
+		hide		: false,
+		zindex		: 9000,
+		bgcolor		: '#fff',
+		imgurl		: '//img.niuguwang.com/static/img/0/loading.gif',
+		imgwidth	: 64,
+		imgheight	: 64,
+		imgzindex	: 9001
 	};
 	
 })(jQuery);
