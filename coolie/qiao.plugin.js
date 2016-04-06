@@ -6,8 +6,7 @@
  * 3.qiao.plugin.tab
  * 4.qiao.plugin.slide
  * 5.qiao.plugin.holder
- * 6.qiao.plugin.loading
- * 7.qiao.plugin.mask
+ * 6.qiao.plugin.mask
  * @author qiaowenbin
  * @version 0.1.0.20151217
  * @history
@@ -131,28 +130,6 @@ define(function (require, exports, module) {
             var $this = $(this);
             if($.trim($this.val()) === '') $this.val($this.data('holder'));
         });
-	};
-	
-	/**
-	 * qiao.plugin.loading
-	 * loading组件
-	 */
-	exports.loading = function(el, hide){
-		var $el = $(el);
-		if(!$el.length) return;
-
-		if(hide){
-			if($el.find('.ng-loading').length) $el.find('.ng-loading').hide().remove();
-		}else{
-			var loadingimg = require('../../../img/loading.gif', 'image');
-			var $loading = $('<div class="ng-loading"><img src="' + loadingimg + '" /></div>');
-			var top = $el.offset().top + 'px';
-			var left = $el.offset().left + 'px';
-			var height = $el.height() + 'px';
-			var width = $el.width() + 'px';
-			
-			$loading.css({width: width, height: height, top: top, left: left}).appendTo($el).find('img').show().end().show();
-		}
 	};
 	
 	/**
