@@ -290,7 +290,10 @@ define(function (require, exports, module) {
 	 * rem调整fontsize
 	 */
 	exports.rem = function(){
-		if(exports.vendor().ios) $('.ng-border').removeClass('ios').addClass('ios');
+		if(exports.vendor().ios){
+			$('.ng-border').removeClass('ios').addClass('ios');	
+			$('.border-ios').removeClass('ios').addClass('ios');	
+		}
 		
 		var docEl = document.documentElement;
 		var clientWidth = docEl.clientWidth;
