@@ -48,8 +48,9 @@ define(function (require, exports, module) {
 	 * 获取usertoken
 	 */
 	exports.utoken = function(callback){
-		if(qiao.search('debug')){
-			if(callback) callback(qiao.search('utoken'));
+		var usertoken = qiao.search('usertoken');
+		if(usertoken){
+			if(callback) callback(usertoken);
 		}else if(typeof android != 'undefined'){
 			if(callback && android.getUserToken) callback(android.getUserToken());
 		}else{
