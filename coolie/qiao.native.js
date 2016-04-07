@@ -271,6 +271,19 @@ define(function (require, exports, module) {
 	};
 	
 	/**
+	 * 打开pdf
+	 */
+	exports.openPDF = function(filepath, filename){
+		if(filepath && filename){
+			if(typeof android != 'undefined'){
+				if(android.openPDF) android.openPDF(filepath, filename);
+			}else{
+				location.href = filepath; 
+			}
+		}
+	};
+	
+	/**
 	 * 获取相机相册权限
 	 */
 	exports.getCameraPhoto = function(callback){
