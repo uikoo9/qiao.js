@@ -223,9 +223,9 @@ define(function (require, exports, module) {
 	/**
 	 * 跳转到A股实盘开户页面
 	 */
-	exports.openStockAccount = function(bid){
+	exports.openStockAccount = function(bid, burl, bchannel, bpackage, bscheme){
 		if(typeof android != 'undefined'){
-			if(android.openStockAccount) android.openStockAccount();
+			if(android.toOpenOneAccount) android.toOpenOneAccount(bid, burl, bchannel, bpackage, bscheme);
 		}else{
 			exports.ready(function(){
 				var msg = JSON.stringify({
