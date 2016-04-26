@@ -203,7 +203,45 @@ define(function (require, exports, module) {
 	};
 	
 	/**
-	 * 跳转到A股实盘开户页面
+	 * 常用-绑定手机页面
+	 */
+	exports.bindMobile = function(){
+		if(typeof android != 'undefined'){
+			if(android.bindMobile) android.bindMobile();
+		}else{
+			exports.ready(function(){
+				var msg = JSON.stringify({
+					methodtype : 'bindMobile'
+				});
+				
+				if(bridge.send) bridge.send(msg);
+    			if(bridge.sendMessage) bridge.sendMessage(msg);
+			});
+		}
+	};
+	
+	/**
+	 * A股-模拟组合页面
+	 */
+	exports.toVirtualAccount = function(accountId, userId){
+		if(typeof android != 'undefined'){
+			if(android.toVirtualAccount) android.toVirtualAccount(accountId, userId);
+		}else{
+			exports.ready(function(){
+				var msg = JSON.stringify({
+					methodtype 	: 'toVirtualAccount',
+					accountId	: accountId,
+					userId		: userId
+				});
+				
+				if(bridge.send) bridge.send(msg);
+				if(bridge.sendMessage) bridge.sendMessage(msg);
+			});
+		}
+	};
+	
+	/**
+	 * A股-开户券商列表
 	 */
 	exports.toOpenAccount = function(){
 		if(typeof android != 'undefined'){
@@ -221,7 +259,7 @@ define(function (require, exports, module) {
 	};
 	
 	/**
-	 * 跳转到A股实盘开户页面
+	 * A股-某一券商开户页面
 	 */
 	exports.openStockAccount = function(bid, burl, bchannel, bpackage, bscheme){
 		if(typeof android != 'undefined'){
@@ -238,21 +276,59 @@ define(function (require, exports, module) {
 			});
 		}
 	};
-	
+
 	/**
-	 * 跳转到绑定手机页面
+	 * 港美股-模拟交易页面
 	 */
-	exports.bindMobile = function(){
+	exports.toVirtualForeignAccount = function(accountId){
 		if(typeof android != 'undefined'){
-			if(android.bindMobile) android.bindMobile();
+			if(android.toVirtualForeignAccount) android.toVirtualForeignAccount(accountId);
 		}else{
 			exports.ready(function(){
 				var msg = JSON.stringify({
-					methodtype : 'bindMobile'
+					methodtype 	: 'toVirtualForeignAccount',
+					accountId	: accountId
 				});
 				
 				if(bridge.send) bridge.send(msg);
-    			if(bridge.sendMessage) bridge.sendMessage(msg);
+				if(bridge.sendMessage) bridge.sendMessage(msg);
+			});
+		}
+	};
+	
+	/**
+	 * 基金-开户认证页面
+	 */
+	exports.toOpenFundAccount = function(){
+		if(typeof android != 'undefined'){
+			if(android.toOpenFundAccount) android.toOpenFundAccount();
+		}else{
+			exports.ready(function(){
+				var msg = JSON.stringify({
+					methodtype 	: 'toOpenFundAccount'
+				});
+				
+				if(bridge.send) bridge.send(msg);
+				if(bridge.sendMessage) bridge.sendMessage(msg);
+			});
+		}
+	};
+	
+	/**
+	 * 基金-模拟交易页面
+	 */
+	exports.toVirtualFundAccount = function(accountId){
+		if(typeof android != 'undefined'){
+			if(android.toVirtualFundAccount) android.toVirtualFundAccount(accountId);
+		}else{
+			exports.ready(function(){
+				var msg = JSON.stringify({
+					methodtype 	: 'toVirtualFundAccount',
+					accountId	: accountId
+				});
+				
+				if(bridge.send) bridge.send(msg);
+				if(bridge.sendMessage) bridge.sendMessage(msg);
 			});
 		}
 	};
