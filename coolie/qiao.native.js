@@ -6,6 +6,7 @@ define(function (require, exports, module) {
     'use strict';
     
     var qiao = require('qiao.util.js');
+    var qiaong 	= require('qiao.ng.js');
     var ready = false;
     var readyCallbacks = [];
     var bridge;
@@ -56,7 +57,8 @@ define(function (require, exports, module) {
 		}else{
 			exports.ready(function(){
 				var msg = JSON.stringify({
-					methodtype : 'getUserToken'
+					method 		: 'getUserToken',
+					methodtype 	: 'getUserToken'
 				});
 				
 				if(bridge.send){
@@ -96,7 +98,8 @@ define(function (require, exports, module) {
 		}else{
 			exports.ready(function(){
 				var msg = JSON.stringify({
-					methodtype : 'getGMToken'
+					method 		: 'getGMToken',
+					methodtype 	: 'getGMToken'
 				});
 				
 				if(bridge.send){
@@ -119,8 +122,9 @@ define(function (require, exports, module) {
 		}else{
 			exports.ready(function(){
 				var msg = JSON.stringify({
-					methodtype : 'initRefresh',
-					type : type
+					method 		: 'initRefresh',
+					methodtype 	: 'initRefresh',
+					type 		: type
 				});
 				
 				if(bridge.send) bridge.send(msg);
@@ -138,7 +142,8 @@ define(function (require, exports, module) {
 		}else{
 			exports.ready(function(){
 				var msg = JSON.stringify({
-					methodtype : 'closePage'
+					method 		: 'closePage',
+					methodtype 	: 'closePage'
 				});
 				
 				if(bridge.send) bridge.send(msg);
@@ -156,7 +161,8 @@ define(function (require, exports, module) {
 		}else{
 			exports.ready(function(){
 				var msg = JSON.stringify({
-					methodtype : 'login'
+					method 		: 'login',
+					methodtype 	: 'login'
 				});
 				
 				if(bridge.send) bridge.send(msg);
@@ -174,8 +180,9 @@ define(function (require, exports, module) {
 		}else{
 			exports.ready(function(){
 				var msg = JSON.stringify({
-					methodtype : 'toGMDetail',
-					fundaccount: fundaccount
+					method 		: 'toGMDetail',
+					methodtype 	: 'toGMDetail',
+					fundaccount	: fundaccount
 				});
 				
 				if(bridge.send) bridge.send(msg);
@@ -193,7 +200,8 @@ define(function (require, exports, module) {
 		}else{
 			exports.ready(function(){
 				var msg = JSON.stringify({
-					methodtype : 'toGMTradepwd'
+					method 		: 'toGMTradepwd',
+					methodtype 	: 'toGMTradepwd'
 				});
 				
 				if(bridge.send) bridge.send(msg);
@@ -211,7 +219,8 @@ define(function (require, exports, module) {
 		}else{
 			exports.ready(function(){
 				var msg = JSON.stringify({
-					methodtype : 'bindMobile'
+					method 		: 'bindMobile',
+					methodtype 	: 'bindMobile'
 				});
 				
 				if(bridge.send) bridge.send(msg);
@@ -229,6 +238,7 @@ define(function (require, exports, module) {
 		}else{
 			exports.ready(function(){
 				var msg = JSON.stringify({
+					method 		: 'toVirtualAccount',
 					methodtype 	: 'toVirtualAccount',
 					accountId	: accountId,
 					userId		: userId
@@ -249,7 +259,8 @@ define(function (require, exports, module) {
 		}else{
 			exports.ready(function(){
 				var msg = JSON.stringify({
-					methodtype : 'toOpenAccount'
+					method 		: 'toOpenAccount',
+					methodtype 	: 'toOpenAccount'
 				});
 				
 				if(bridge.send) bridge.send(msg);
@@ -267,8 +278,9 @@ define(function (require, exports, module) {
 		}else{
 			exports.ready(function(){
 				var msg = JSON.stringify({
+					method 		: 'openStockAccount',
 					methodtype 	: 'openStockAccount',
-					brokerId	: bid
+					bid			: bid
 				});
 				
 				if(bridge.send) bridge.send(msg);
@@ -286,8 +298,74 @@ define(function (require, exports, module) {
 		}else{
 			exports.ready(function(){
 				var msg = JSON.stringify({
+					method 		: 'toVirtualForeignAccount',
 					methodtype 	: 'toVirtualForeignAccount',
 					accountId	: accountId
+				});
+				
+				if(bridge.send) bridge.send(msg);
+				if(bridge.sendMessage) bridge.sendMessage(msg);
+			});
+		}
+	};
+	
+	/**
+	 * 港美股-开户方法
+	 * 调用，无返回
+	 */
+	exports.startToKaihu = function(){
+		if(typeof android != 'undefined'){
+			if(android.startToKaihu) android.startToKaihu();
+		}else{
+			exports.ready(function(){
+				var msg = JSON.stringify({
+					method		: 'startToKaihu',
+					methodtype	: 'startToKaihu'
+				});
+				
+				if(bridge.send) bridge.send(msg);
+    			if(bridge.sendMessage) bridge.sendMessage(msg);
+			});
+		}
+	};
+	
+	/**
+	 * 港美股-判断是否在交易页面
+	 * 调用，返回
+	 */
+	exports.loadKaihuInTrade = function(callback){
+		if(typeof android != 'undefined'){
+			if(callback && android.loadKaihuInTrade) callback({status : android.loadKaihuInTrade()});
+		}else{
+			exports.ready(function(){
+				var msg = JSON.stringify({
+					method		: 'loadKaihuInTrade',
+					methodtype	: 'loadKaihuInTrade'
+				});
+				
+				if(bridge.send){
+					bridge.send(msg, function(responseData) {
+						if(callback) callback(responseData ? JSON.parse(responseData) : {});
+					});
+				}
+			});
+		}
+	};
+	
+	/**
+	 * 港美股-在交易页面开户
+	 * 调用，无返回
+	 */
+	exports.startKaihuInTrade = function(s){
+		var url = 'http://openaccount.huanyingzq.com/embed/views/gmAccountOpen/' + qiaong.url['step' + (s + 1)];
+		if(typeof android != 'undefined'){
+			if(android.startKaihuInTrade) android.startKaihuInTrade(url);
+		}else{
+			exports.ready(function(){
+				var msg = JSON.stringify({
+					method		: 'startKaihuInTrade',
+					methodtype 	: 'startKaihuInTrade',
+					url			: url
 				});
 				
 				if(bridge.send) bridge.send(msg);
@@ -305,6 +383,7 @@ define(function (require, exports, module) {
 		}else{
 			exports.ready(function(){
 				var msg = JSON.stringify({
+					method 		: 'toOpenFundAccount',
 					methodtype 	: 'toOpenFundAccount'
 				});
 				
@@ -323,6 +402,7 @@ define(function (require, exports, module) {
 		}else{
 			exports.ready(function(){
 				var msg = JSON.stringify({
+					method 		: 'toVirtualFundAccount',
 					methodtype 	: 'toVirtualFundAccount',
 					accountId	: accountId
 				});
@@ -371,7 +451,8 @@ define(function (require, exports, module) {
 		}else{
 			exports.ready(function(){
 				var msg = JSON.stringify({
-					methodtype : 'getCameraPhoto'
+					method 		: 'getCameraPhoto',
+					methodtype 	: 'getCameraPhoto'
 				});
 				
 				if(bridge.send){
@@ -393,8 +474,9 @@ define(function (require, exports, module) {
 			}else{
 				exports.ready(function(){
 					var msg = JSON.stringify({
-						methodtype : 'settitle',
-						title : title
+						method 		: 'settitle',
+						methodtype 	: 'settitle',
+						title 		: title
 					});
 					
 					if(bridge.send) bridge.send(msg);
@@ -417,6 +499,7 @@ define(function (require, exports, module) {
     	}else{
     		exports.ready(function(){
     			var msg = JSON.stringify({
+    				method 			: 'initShare',
     				methodtype 		: 'initShare',
     				shareTitle 		: title,
     				shareContent 	: content,
