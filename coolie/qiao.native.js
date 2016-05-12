@@ -357,7 +357,8 @@ define(function (require, exports, module) {
 	 * 调用，无返回
 	 */
 	exports.startKaihuInTrade = function(s){
-		var url = 'http://openaccount.huanyingzq.com/embed/views/gmAccountOpen/' + qiaong.url['step' + (s + 1)];
+		var step = s ? s : 1;
+		var url = 'http://openaccount.huanyingzq.com/embed/views/gmAccountOpen/' + qiaong.url['step' + (step + 1)];
 		if(typeof android != 'undefined'){
 			if(android.startKaihuInTrade) android.startKaihuInTrade(url);
 		}else{
