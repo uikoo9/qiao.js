@@ -51,7 +51,7 @@ define(function(require,exports){
 	
 	/**
 	 * 01.easyui parser
-	 * options :
+	 * options :1
 	 * 	method : $.parser.parse
 	 * 	events : $.parser.onComplete
 	 * 	properties : $.parser.auto
