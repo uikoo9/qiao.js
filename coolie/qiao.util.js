@@ -81,6 +81,19 @@ define(function (require, exports, module) {
 	};
 	
 	/**
+	 * 兼容微信的reload
+	 */
+	exports.reload = function(){
+		var vendor = exports.vendor();
+		if(vendor && vendor.weixin){
+			var url = window.location.href;
+			window.location.href = url + (url.indexOf('?') > -1 ? '&' : '?') + 'v=' + Math.random(); 
+		}else{
+			window.location.reload();
+		}
+	};
+	
+	/**
 	 * qiao.ajax
 	 * 对$.ajax的封装
 	 */
