@@ -10,15 +10,17 @@
  * 8.qiao.end
  * 9.qiao.totop
  * 10.qiao.cookie
- * 11.qiao.juicer 
- * 12.qiao.rem
- * 13.qiao.vendor
- * 14.qiao.app
- * 15.qiao.title
- * 16.qiao.reload
+ * 11.qiao.juicer
+ * 12.qiao.art 
+ * 13.qiao.rem
+ * 14.qiao.vendor
+ * 15.qiao.app
+ * 16.qiao.title
+ * 17.qiao.reload
  * @author qiaowenbin
- * @version 0.2.0.20160706
+ * @version 0.2.1.20160712
  * @history
+ * 	0.2.1.20160712<br>
  * 	0.2.0.20160706<br>
  * 	0.1.2.20160322<br>
  * 	0.1.1.20151229<br>
@@ -229,6 +231,14 @@ define(function (require, exports, module) {
 			$tpl.after(juicer($tpl.html(), data));
 			if(callback) callback();
 		}
+	};
+	
+	/**
+	 * qiao.art
+	 * 对art-template进行封装
+	 */
+	exports.art = function(html, data){
+		return template.compile(html)(data);
 	};
 	
 	/**
