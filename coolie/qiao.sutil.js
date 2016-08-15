@@ -2,9 +2,21 @@
 
 var request = require('request');
 var crypto 	= require('crypto');
+var mailer 	= require('nodemailer');
 
-var config 	= require('../../static/config.json');
+var config 	= require('../../config.json');
 config		= config[config.env];
+
+
+/**
+ * client ip 
+ */
+exports.ip = function(req){
+	return req.headers['x-forwarded-for'] ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress ||
+    req.connection.socket.remoteAddress;
+};
 
 /**
  * vendor 
@@ -98,6 +110,21 @@ exports.crypto.tdesd = function(txt, key, iv){
 };
 
 /**
+ * mail相关 
+ */
+exports.mail = {};
+exports.mail.transporter = mailer.createTransport(config.mail);
+exports.mail.send = function(options){
+	exports.mail.transporter.sendMail(options, function(error, info){
+	    if(error){
+	        console.log(error);
+	    }else{
+	        console.log('Message sent: ' + info.response);
+	    }
+	});
+};
+
+/**
  * db相关 
  */
 exports.db = {};
@@ -123,15 +150,19 @@ exports.db.con = function(pool, cb){
  */
 exports.weixin = {};
 exports.weixin.url = {
-	urlForAccessToken	: 'https://api.weixin.qq.com/cgi-bin/token?',
 	urlForWebLogin 		: 'https://open.weixin.qq.com/connect/oauth2/authorize?',
+	urlForWebLoginPC	: 'https://open.weixin.qq.com/connect/qrconnect?',
 	urlForWebLoginAC	: 'https://api.weixin.qq.com/sns/oauth2/access_token?',
 	urlForWebLoginInfo	: 'https://api.weixin.qq.com/sns/userinfo?',
-	urlForJsTicket 		: 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?'
 };
 exports.weixin.weblogin = function(uri, type, param){
-	var ss = [exports.weixin.url.urlForWebLogin];
-	ss.push("appid=" + config.weixin.appid);
+	var ispc = type == 'snsapi_login';
+	var url = ispc ? exports.weixin.url.urlForWebLoginPC : exports.weixin.url.urlForWebLogin;
+	var appid = ispc ? config.weixin.openappid : config.weixin.appid;
+
+	var ss = [];
+	ss.push(url);
+	ss.push("appid=" + appid);
 	ss.push("&redirect_uri=" + decodeURI(uri));
 	ss.push("&response_type=code");
 	ss.push("&scope=" + type);
@@ -143,11 +174,15 @@ exports.weixin.weblogin = function(uri, type, param){
 exports.weixin.webloginbase = function(uri, param){
 	return exports.weixin.weblogin(uri, 'snsapi_base', param);
 };
-exports.weixin.weblogininfo = function(uri, param){
-	return exports.weixin.weblogin(uri, 'snsapi_userinfo', param);
+exports.weixin.weblogininfo = function(uri, param, flag){
+	var type = flag ? 'snsapi_userinfo' : 'snsapi_login';
+	return exports.weixin.weblogin(uri, type, param);
 };
-exports.weixin.webloginaccesstoken = function(code, cb){
-	var url = exports.weixin.url.urlForWebLoginAC + "appid=" + config.weixin.appid + "&secret=" + config.weixin.secret + "&code=" + code + "&grant_type=authorization_code";
+exports.weixin.webloginaccesstoken = function(code, flag, cb){
+	var appid = flag ? config.weixin.appid : config.weixin.openappid;
+	var secret = flag ? config.weixin.secret : config.weixin.opensecret;
+	
+	var url = exports.weixin.url.urlForWebLoginAC + "appid=" + appid + "&secret=" + secret + "&code=" + code + "&grant_type=authorization_code";
 	request.get(url, function(err, response, body){
 		if(cb) cb(JSON.parse(body));
 	});
