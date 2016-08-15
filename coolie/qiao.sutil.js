@@ -4,9 +4,7 @@ var request = require('request');
 var crypto 	= require('crypto');
 var mailer 	= require('nodemailer');
 
-var config 	= require('../../config.json');
-config		= config[config.env];
-
+var properties 	= require('../server-properties.json');
 
 /**
  * client ip 
@@ -85,7 +83,7 @@ exports.crypto = {};
 exports.crypto.key = function(appid){
 	var key;
 	
-	var apps = config.apps;
+	var apps = properties.apps;
 	for(var i=0; i<apps.length; i++){
 		if(appid == apps[i].id) key = apps[i].key;
 	}
@@ -113,7 +111,7 @@ exports.crypto.tdesd = function(txt, key, iv){
  * mail相关 
  */
 exports.mail = {};
-exports.mail.transporter = mailer.createTransport(config.mail);
+exports.mail.transporter = mailer.createTransport(properties.mail);
 exports.mail.send = function(options){
 	exports.mail.transporter.sendMail(options, function(error, info){
 	    if(error){
@@ -128,10 +126,6 @@ exports.mail.send = function(options){
  * db相关 
  */
 exports.db = {};
-exports.db.info = function(){
-	var c = config;
-	return c['db_' + c.env];
-};
 exports.db.con = function(pool, cb){
 	pool.getConnection(function(err, connection) {
 		if(err){
@@ -158,7 +152,7 @@ exports.weixin.url = {
 exports.weixin.weblogin = function(uri, type, param){
 	var ispc = type == 'snsapi_login';
 	var url = ispc ? exports.weixin.url.urlForWebLoginPC : exports.weixin.url.urlForWebLogin;
-	var appid = ispc ? config.weixin.openappid : config.weixin.appid;
+	var appid = ispc ? properties.weixin.openappid : properties.weixin.appid;
 
 	var ss = [];
 	ss.push(url);
@@ -179,8 +173,8 @@ exports.weixin.weblogininfo = function(uri, param, flag){
 	return exports.weixin.weblogin(uri, type, param);
 };
 exports.weixin.webloginaccesstoken = function(code, flag, cb){
-	var appid = flag ? config.weixin.appid : config.weixin.openappid;
-	var secret = flag ? config.weixin.secret : config.weixin.opensecret;
+	var appid = flag ? properties.weixin.appid : properties.weixin.openappid;
+	var secret = flag ? properties.weixin.secret : properties.weixin.opensecret;
 	
 	var url = exports.weixin.url.urlForWebLoginAC + "appid=" + appid + "&secret=" + secret + "&code=" + code + "&grant_type=authorization_code";
 	request.get(url, function(err, response, body){
