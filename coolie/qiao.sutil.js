@@ -2,9 +2,8 @@
 
 var request = require('request');
 var crypto 	= require('crypto');
-var mailer 	= require('nodemailer');
-
-var properties 	= require('../server-properties.json');
+var config 	= require('../server-properties.json');
+var sconfig	= require('../../config.json');
 
 /**
  * client ip 
@@ -51,11 +50,11 @@ exports.j.json = function(type, msg, obj){
 		success : true,
 		msg		: '',
 		type	: '',
-		object	: null
+		obj		: null
 	};
 	
 	if(type) json.type = type;
-	if(msg)	json.msg = msg;
+	if(msg)	json.msg = config.msg[msg] || msg;
 	if(obj) json.obj = obj;
 	
 	return json;
@@ -72,35 +71,29 @@ exports.j.warning = function(msg, obj){
 exports.j.danger = function(msg, obj){
 	return exports.j.json('danger', msg, obj);
 };
-exports.j.parse = function(err, body){
-	return JSON.parse(err ? err : body); 
-};
 
 /**
  * encrypt相关 
  */
 exports.crypto = {};
-exports.crypto.key = function(appid){
+exports.crypto.key = function(appid, rows){
 	var key;
 	
-	var apps = properties.apps;
-	for(var i=0; i<apps.length; i++){
-		if(appid == apps[i].id) key = apps[i].key;
+	for(var i=0; i<rows.length; i++){
+		if(appid == rows[i].org_code_appid) key = rows[i].org_code_appkey;
 	}
 	
 	return key;
 };
-exports.crypto.tdes = function(txt, key, iv){
-	var ivv = iv || '12345678';
-	var cipher = crypto.createCipheriv('des-ede3-cbc', key, ivv);
+exports.crypto.tdes = function(txt, key){
+	var cipher = crypto.createCipheriv('des-ede3', key, '');
 	var res = cipher.update(txt, 'utf8', 'hex');
 	res += cipher.final('hex');
 	
 	return res;
 };
-exports.crypto.tdesd = function(txt, key, iv){
-	var ivv = iv || '12345678';
-	var decipher = crypto.createDecipheriv('des-ede3-cbc', key, ivv);
+exports.crypto.tdesd = function(txt, key){
+	var decipher = crypto.createDecipheriv('des-ede3', key, '');
 	var res = decipher.update(txt, 'hex', 'utf8');
 	res += decipher.final('utf8'); 
 	
@@ -110,26 +103,29 @@ exports.crypto.tdesd = function(txt, key, iv){
 /**
  * mail相关 
  */
-exports.mail = {};
-exports.mail.transporter = mailer.createTransport(properties.mail);
-exports.mail.send = function(options){
-	exports.mail.transporter.sendMail(options, function(error, info){
-	    if(error){
-	        console.log(error);
-	    }else{
-	        console.log('Message sent: ' + info.response);
-	    }
+exports.mail 		= {};
+exports.mail.mailer = require('nodemailer');
+exports.mail.send	= function(options){
+	var transporter = exports.mail.mailer.createTransport(config.mail);
+	transporter.sendMail(options, function(error, info){
+		if(error){
+			exports.log.error(error);
+		}else{
+			exports.log.info('已发送：' + info.response);
+		}
 	});
 };
 
 /**
  * db相关 
  */
-exports.db = {};
-exports.db.con = function(pool, cb){
+exports.db 		= {};
+exports.db.mysql= require('mysql');
+exports.db.con	= function(cb){
+	var pool = exports.db.mysql.createPool(sconfig.db);
 	pool.getConnection(function(err, connection) {
 		if(err){
-			console.log(err);
+			exports.log.error(err);
 			return;
 		}
 		
@@ -138,6 +134,17 @@ exports.db.con = function(pool, cb){
 		connection.release();
 	});
 };
+
+/**
+ * log相关 
+ */
+var log4js	= require('log4js');
+
+var logconfig = config.log4js;
+logconfig.appenders[1].filename = sconfig.log + logconfig.appenders[1].filename;
+log4js.configure(logconfig);
+
+exports.log = log4js.getLogger();
 
 /**
  * weixin相关 
@@ -152,7 +159,7 @@ exports.weixin.url = {
 exports.weixin.weblogin = function(uri, type, param){
 	var ispc = type == 'snsapi_login';
 	var url = ispc ? exports.weixin.url.urlForWebLoginPC : exports.weixin.url.urlForWebLogin;
-	var appid = ispc ? properties.weixin.openappid : properties.weixin.appid;
+	var appid = ispc ? config.weixin.openappid : config.weixin.appid;
 
 	var ss = [];
 	ss.push(url);
@@ -173,8 +180,8 @@ exports.weixin.weblogininfo = function(uri, param, flag){
 	return exports.weixin.weblogin(uri, type, param);
 };
 exports.weixin.webloginaccesstoken = function(code, flag, cb){
-	var appid = flag ? properties.weixin.appid : properties.weixin.openappid;
-	var secret = flag ? properties.weixin.secret : properties.weixin.opensecret;
+	var appid = flag ? config.weixin.appid : config.weixin.openappid;
+	var secret = flag ? config.weixin.secret : config.weixin.opensecret;
 	
 	var url = exports.weixin.url.urlForWebLoginAC + "appid=" + appid + "&secret=" + secret + "&code=" + code + "&grant_type=authorization_code";
 	request.get(url, function(err, response, body){
