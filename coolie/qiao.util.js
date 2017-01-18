@@ -66,6 +66,14 @@ define(function (require, exports, module) {
 	};
 	
 	/**
+	 * qiao.xss
+	 * 奖输入的html标签替换掉
+	 */
+	exports.xss = function(str){
+		return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\'/g, '&apos;').replace(/"/g, '&quot;');
+	};
+
+	/**
 	 * qiao.on
 	 * 事件绑定
 	 */
@@ -115,7 +123,7 @@ define(function (require, exports, module) {
 				if(fail){
 					fail(e);
 				}else{
-					console.log('数据传输失败，请重试！');
+					console.log('网络传输失败，请稍候重试！');
 				}
 			});
 		}
@@ -240,7 +248,7 @@ define(function (require, exports, module) {
 	exports.art = function(html, data){
 		return template.compile(html)(data);
 	};
-	
+
 	/**
 	 * qiao.rem
 	 * rem调整fontsize
@@ -314,7 +322,7 @@ define(function (require, exports, module) {
     exports.title = function(t){
     	if(t){
     		$('title').text(t);
-    		var $iframe = $('<iframe src="http://www.baidu.com/img/baidu_jgylogo3.gif" style="display:none;"></iframe>');
+    		var $iframe = $('<iframe src="https://www.baidu.com/img/bd_logo1.png" style="display:none;"></iframe>');
     		$iframe.on('load', function(){setTimeout(function(){$iframe.off('load').remove();}, 0);}).appendTo($('body'));
     	}
     };
