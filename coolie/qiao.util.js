@@ -30,7 +30,7 @@ define(function (require, exports, module) {
     'use strict';
     
     /**
-	 * 将表单转为js对象
+	 * 将表单转为js对象 
 	 */
 	$.fn.qser = function(){
 		var obj = {};
