@@ -30,7 +30,7 @@ define(function (require, exports, module) {
     'use strict';
     
     /**
-	 * 将表单转为js对象 
+	 * 将表单转为js对象
 	 */
 	$.fn.qser = function(){
 		var obj = {};
@@ -315,6 +315,8 @@ define(function (require, exports, module) {
     	vendor.qq 		= / qq/gi.test(ua);
     	vendor.qqb 		= /mqqbrowser/gi.test(ua);
     	vendor.weibo 	= /weibo/gi.test(ua);
+    	vendor.nochrome	= /^((?!chrome).)*$/gi.test(ua);
+    	vendor.safari	= /safari/gi.test(ua) && vendor.nochrome;
     	var matched;
     	if((matched = ua.match(/MSIE\s([\d\.]+)/)) || (matched = ua.match(/IEMobile\/([\d\.]+)/))){
     		vendor.ie = true;
