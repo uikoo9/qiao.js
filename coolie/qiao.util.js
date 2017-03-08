@@ -93,6 +93,36 @@ define(function (require, exports, module) {
 	};
 	
 	/**
+	 * qiao.flash
+	 * 判断是否安装flash
+	 * true，安装
+	 * false，没有安装
+	 */
+	exports.flash = function(){
+		var flash = true;
+		
+		var vendor = exports.vendor();
+		if(!vendor.mobile){
+			if(vendor.ie){
+				try{
+					var swf1 = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+				}catch(e){
+					flash = false;
+				}
+			}else{
+				try{
+					var swf2 = navigator.plugins['Shockwave Flash'];
+					if(typeof swf2 == 'undefined') flash = false;
+				}catch(e){
+					flash = false;
+				}
+			}
+		}
+		
+		return flash;
+	};
+	
+	/**
 	 * qiao.ajax
 	 * 对$.ajax的封装
 	 */
