@@ -121,9 +121,9 @@ exports.mail.send	= function(options){
  */
 exports.db 		= {};
 exports.db.mysql= require('mysql');
+exports.db.pool = exports.db.mysql.createPool(sconfig.db);
 exports.db.con	= function(cb){
-	var pool = exports.db.mysql.createPool(sconfig.db);
-	pool.getConnection(function(err, connection) {
+	exports.db.pool.getConnection(function(err, connection) {
 		if(err){
 			exports.log.error(err);
 			return;
