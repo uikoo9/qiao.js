@@ -120,19 +120,36 @@ exports.mail.send	= function(options){
  * db相关 
  */
 exports.db 		= {};
-exports.db.mysql= require('mysql');
-exports.db.pool = exports.db.mysql.createPool(sconfig.db);
-exports.db.con	= function(cb){
-	exports.db.pool.getConnection(function(err, connection) {
-		if(err){
-			exports.log.error(err);
-			return;
-		}
-		
-		if(cb) cb(connection);
-		
-		connection.release();
+
+exports.db.mysql		= {};
+exports.db.mysql.lib	= require('mysql');
+exports.db.mysql.pool	= exports.db.mysql.lib.createPool(config.db);
+exports.db.mysql.con	= function(){
+	return new Promise(function(resolve, reject){
+		exports.db.mysql.pool.getConnection(function(error, connection){
+			return error ? reject(error) : resolve(connection);
+		});
 	});
+};
+exports.db.mysql.query	= function(sql, params){
+	return new Promise(function(resolve, reject){
+		exports.db.mysql.pool.query(sql, params || [], function(error, results){
+			return error ? reject(error) : resolve(results);
+		});
+	});
+};
+
+exports.db.mongodb		= {};
+exports.db.mongodb.lib	= require('mongoose');
+exports.db.mongodb.init	= function(){
+	exports.db.mongodb.lib.Promise = global.Promise;  
+	
+	var options = config.mongodb;
+	var uri = 'mongodb://' + options.user + ':' + options.password + '@' + options.host + ':' + options.port + '/' + options.database;
+	exports.db.mongodb.lib.connect(uri);
+};
+exports.db.mongodb.model= function(n, s){
+	return s ? exports.db.mongodb.lib.model(n, s, n) : exports.db.mongodb.lib.model(n);
 };
 
 /**
