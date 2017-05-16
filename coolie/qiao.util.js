@@ -2,24 +2,28 @@
  * qiao.util.js
  * 1.qser
  * 2.qdata
- * 3.qiao.on
- * 4.qiao.is
- * 5.qiao.ajax
- * 6.qiao.cajax
- * 7.qiao.search
- * 8.qiao.end
- * 9.qiao.totop
- * 10.qiao.cookie
- * 11.qiao.juicer
- * 12.qiao.art 
- * 13.qiao.rem
- * 14.qiao.vendor
- * 15.qiao.app
- * 16.qiao.title
- * 17.qiao.reload
+ * 3.qiao.xss
+ * 4.qiao.on
+ * 5.qiao.is
+ * 6.qiao.flash
+ * 7.qiao.ajax
+ * 8.qiao.cajax
+ * 9.qiao.search
+ * 10.qiao.end
+ * 11.qiao.totop
+ * 12.qiao.cookie
+ * 13.qiao.juicer
+ * 14.qiao.art 
+ * 15.qiao.rem
+ * 16.qiao.vendor
+ * 17.qiao.app
+ * 18.qiao.title
+ * 19.qiao.reload
+ * 20.qiao.weixin
  * @author qiaowenbin
  * @version 0.2.1.20160712
  * @history
+ * 	0.2.2.20170516<br>
  * 	0.2.1.20160712<br>
  * 	0.2.0.20160706<br>
  * 	0.1.2.20160322<br>
