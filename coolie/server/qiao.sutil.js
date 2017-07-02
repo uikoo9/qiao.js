@@ -3,7 +3,6 @@
 var request = require('request');
 var crypto 	= require('crypto');
 var config 	= require('../server-properties.json');
-var sconfig	= require('../../config.json');
 
 /**
  * client ip 
@@ -13,6 +12,15 @@ exports.ip = function(req){
     req.connection.remoteAddress ||
     req.socket.remoteAddress ||
     req.connection.socket.remoteAddress;
+};
+
+/**
+ * file 
+ */
+exports.file = {};
+exports.file.ext = function(name){
+	var ss = name.toLowerCase().split('.');
+	return ss[ss.length - 1];
 };
 
 /**
@@ -73,6 +81,29 @@ exports.j.danger = function(msg, obj){
 };
 
 /**
+ * log相关 
+ */
+var log4js	= require('log4js');
+log4js.configure(config.log4js);
+exports.log = log4js.getLogger();
+
+/**
+ * mail相关 
+ */
+exports.mail 		= {};
+exports.mail.mailer = require('nodemailer');
+exports.mail.send	= function(options){
+	var transporter = exports.mail.mailer.createTransport(config.mail);
+	transporter.sendMail(options, function(error, info){
+		if(error){
+			exports.log.error(error);
+		}else{
+			exports.log.info('已发送：' + info.response);
+		}
+	});
+};
+
+/**
  * encrypt相关 
  */
 exports.crypto = {};
@@ -101,25 +132,9 @@ exports.crypto.tdesd = function(txt, key){
 };
 
 /**
- * mail相关 
- */
-exports.mail 		= {};
-exports.mail.mailer = require('nodemailer');
-exports.mail.send	= function(options){
-	var transporter = exports.mail.mailer.createTransport(config.mail);
-	transporter.sendMail(options, function(error, info){
-		if(error){
-			exports.log.error(error);
-		}else{
-			exports.log.info('已发送：' + info.response);
-		}
-	});
-};
-
-/**
  * db相关 
  */
-exports.db 		= {};
+exports.db 				= {};
 
 exports.db.mysql		= {};
 exports.db.mysql.lib	= require('mysql');
@@ -150,64 +165,4 @@ exports.db.mongodb.init	= function(){
 };
 exports.db.mongodb.model= function(n, s){
 	return s ? exports.db.mongodb.lib.model(n, s, n) : exports.db.mongodb.lib.model(n);
-};
-
-/**
- * log相关 
- */
-var log4js	= require('log4js');
-
-var logconfig = config.log4js;
-logconfig.appenders[1].filename = sconfig.log + logconfig.appenders[1].filename;
-log4js.configure(logconfig);
-
-exports.log = log4js.getLogger();
-
-/**
- * weixin相关 
- */
-exports.weixin = {};
-exports.weixin.url = {
-	urlForWebLogin 		: 'https://open.weixin.qq.com/connect/oauth2/authorize?',
-	urlForWebLoginPC	: 'https://open.weixin.qq.com/connect/qrconnect?',
-	urlForWebLoginAC	: 'https://api.weixin.qq.com/sns/oauth2/access_token?',
-	urlForWebLoginInfo	: 'https://api.weixin.qq.com/sns/userinfo?',
-};
-exports.weixin.weblogin = function(uri, type, param){
-	var ispc = type == 'snsapi_login';
-	var url = ispc ? exports.weixin.url.urlForWebLoginPC : exports.weixin.url.urlForWebLogin;
-	var appid = ispc ? config.weixin.openappid : config.weixin.appid;
-
-	var ss = [];
-	ss.push(url);
-	ss.push("appid=" + appid);
-	ss.push("&redirect_uri=" + decodeURI(uri));
-	ss.push("&response_type=code");
-	ss.push("&scope=" + type);
-	if(param) ss.push("&state=" + param);
-	ss.push("#wechat_redirect");
-	
-	return ss.join('');
-};
-exports.weixin.webloginbase = function(uri, param){
-	return exports.weixin.weblogin(uri, 'snsapi_base', param);
-};
-exports.weixin.weblogininfo = function(uri, param, flag){
-	var type = flag ? 'snsapi_userinfo' : 'snsapi_login';
-	return exports.weixin.weblogin(uri, type, param);
-};
-exports.weixin.webloginaccesstoken = function(code, flag, cb){
-	var appid = flag ? config.weixin.appid : config.weixin.openappid;
-	var secret = flag ? config.weixin.secret : config.weixin.opensecret;
-	
-	var url = exports.weixin.url.urlForWebLoginAC + "appid=" + appid + "&secret=" + secret + "&code=" + code + "&grant_type=authorization_code";
-	request.get(url, function(err, response, body){
-		if(cb) cb(JSON.parse(body));
-	});
-};
-exports.weixin.webloginuserinfo = function(ac, openid, cb){
-	var url = exports.weixin.url.urlForWebLoginInfo + "access_token=" + ac + "&openid=" + openid + "&lang=zh_CN";
-	request.get(url, function(err, response, body){
-		if(cb) cb(JSON.parse(body));
-	});
 };
