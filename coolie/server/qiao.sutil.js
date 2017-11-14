@@ -1,6 +1,5 @@
 'use strict';
 
-var request = require('request');
 var crypto 	= require('crypto');
 var config 	= require('../server-properties.json');
 
@@ -18,9 +17,29 @@ exports.ip = function(req){
  * file 
  */
 exports.file = {};
+exports.file.lib = require('fs');
 exports.file.ext = function(name){
 	var ss = name.toLowerCase().split('.');
 	return ss[ss.length - 1];
+};
+exports.file.read = function(path, list){
+	exports.file.lib.readdirSync(path).forEach(function(name){
+		var stat = exports.file.lib.statSync(path + name);
+		if(stat.isDirectory()){
+			exports.file.read(path + name + '/', list);
+		}else{
+			list.push({
+				path : path,
+				name : name
+			});
+		}
+	});
+};
+exports.file.readAll = function(path){
+	var list = [];
+	exports.file.read(path, list);
+	
+	return list;
 };
 
 /**
@@ -86,6 +105,18 @@ exports.j.danger = function(msg, obj){
 var log4js	= require('log4js');
 log4js.configure(config.log4js);
 exports.log = log4js.getLogger();
+
+/**
+ * fundebug相关 
+ */
+var fundebug 	= require('fundebug-nodejs');
+
+var funconfig	= config.fundebug;
+if(sconfig.url.apihostname.indexOf('dev-') > -1) funconfig.releaseStage = 'development';
+if(sconfig.url.apihostname.indexOf('test-') > -1) funconfig.releaseStage = 'test';
+
+fundebug.config(funconfig);
+exports.flog = fundebug;
 
 /**
  * mail相关 
